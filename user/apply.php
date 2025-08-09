@@ -35,7 +35,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit();
     } else {
 
-        $application_id = 'AS' . rand(1000, 9999);
+        $application_id = 'AP' . rand(1000, 9999);
 
         // Insert application
         $apply_sql = "INSERT INTO applications (application_id, job_id, jobseeker_id) VALUES (?,?,?)";

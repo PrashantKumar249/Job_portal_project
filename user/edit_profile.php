@@ -32,6 +32,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $specialization = $_POST['specialization'] ?? '';
     $role = $_POST['role'] ?? '';
     $skills = $_POST['skills'] ?? '';
+    $bio = $_POST['bio'] ?? '';
     $experience_level = $_POST['experience_level'] ?? '';
 
     // Handle resume upload
@@ -44,13 +45,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $resume_path = $target_file;
     }
 
-    $update_sql = "UPDATE jobseekers SET name=?, email=?, phone=?, education=?, course=?, specialization=?, role=?, skills=?, experience_level=?, resume=? WHERE jobseeker_id=?";
+    $update_sql = "UPDATE jobseekers SET name=?, email=?, phone=?, education=?, course=?, specialization=?, role=?, skills=?, bio=?, experience_level=?, resume=? WHERE jobseeker_id=?";
     $stmt = $conn->prepare($update_sql);
-    $stmt->bind_param("sssssssssss", $name, $email, $phone, $education, $course, $specialization, $role, $skills, $experience_level, $resume_path, $jobseeker_id);
+    $stmt->bind_param("ssssssssssss", $name, $email, $phone, $education, $course, $specialization, $role, $skills, $bio, $experience_level, $resume_path, $jobseeker_id);
     $stmt->execute();
 
-    header("Location: profile.php");
-    exit();
+    //header("Location: profile.php");
+    //exit();
 }
 ?>
 
@@ -107,6 +108,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <textarea name="skills" rows="3"
                 class="w-full border rounded px-3 py-2"><?= htmlspecialchars($jobseeker['skills']) ?></textarea>
         </div>
+
+        <div>
+            <label class="block text-sm font-medium">Bio</label>
+            <textarea name="bio" rows="3"
+                class="w-full border rounded px-3 py-2"><?= htmlspecialchars($jobseeker['bio']) ?></textarea>
+        </div>
+
 
         <div>
             <label class="block text-sm font-medium">Upload Resume (PDF)</label>

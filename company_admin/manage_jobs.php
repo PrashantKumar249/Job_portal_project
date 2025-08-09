@@ -35,6 +35,8 @@ $result = $stmt->get_result();
 
                     <div class="flex justify-between items-center">
                         <a href="edit_job.php?job_id=<?= $row['job_id'] ?>" class="text-blue-600 hover:underline font-medium">✏️ Edit</a>
+                        <!-- view applications -->
+                         <a href="applicants.php?job_id=<?=$row['job_id']?>">View Applications</a>
                         <a href="delete_job.php?job_id=<?= $row['job_id'] ?>" class="text-red-600 hover:underline font-medium" onclick="return confirm('Are you sure you want to delete this job?')">🗑️ Delete</a>
                     </div>
                 </div>

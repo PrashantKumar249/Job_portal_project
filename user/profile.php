@@ -122,6 +122,17 @@ include "include/header.php";
                     <h3 class="text-lg font-semibold text-gray-800 mt-2"><?php echo htmlspecialchars($jobseeker['skills']); ?></h3>
                 </div>
 
+                 <!-- bio -->
+                <div class="bg-blue-50 p-6 rounded-xl shadow-sm border border-blue-100 hover:shadow-md transition">
+                    <p class="text-sm text-blue-600 font-medium flex items-center gap-2">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path>
+                        </svg>
+                        Bio
+                    </p>
+                    <h3 class="text-lg font-semibold text-gray-800 mt-2"><?php echo htmlspecialchars($jobseeker['bio']); ?></h3>
+                </div>
+
                 <!-- Experience Level -->
                 <div class="bg-blue-50 p-6 rounded-xl shadow-sm border border-blue-100 hover:shadow-md transition">
                     <p class="text-sm text-blue-600 font-medium flex items-center gap-2">

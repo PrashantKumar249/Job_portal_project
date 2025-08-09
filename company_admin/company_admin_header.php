@@ -43,7 +43,7 @@ $adminName = $_SESSION['company_admin_name'] ?? 'Company Admin';
       <div id="dropdownMenu" class="absolute right-0 mt-2 w-56 bg-white text-gray-800 rounded shadow-lg z-50 hidden">
         <a href="dashboard.php" class="block px-4 py-2 hover:bg-gray-100">🏠 Home</a>
         <a href="manage_jobs.php" class="block px-4 py-2 hover:bg-gray-100">💼 Jobs</a>
-        <a href="applicants.php" class="block px-4 py-2 hover:bg-gray-100">📄 Applications</a>
+        <a href="manage_jobs.php" class="block px-4 py-2 hover:bg-gray-100">📄 Applications</a>
         <hr class="my-1 border-t">
         <a href="profile.php" class="block px-4 py-2 hover:bg-gray-100">👤 Profile</a>
         <a href="change_password.php" class="block px-4 py-2 hover:bg-gray-100">🔒 Change Password</a>

@@ -13,6 +13,7 @@ $error = '';
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $role = trim($_POST['role'] ?? '');
     $skills = trim($_POST['skills'] ?? '');
+    $bio = trim($_POST['bio'] ?? '');
     $resume_path = '';
     $jobseeker_id = $_SESSION['jobseeker_id'];
 
@@ -24,9 +25,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     if ($role && $skills && $resume_path) {
-        $query = "UPDATE jobseekers SET role = ?, skills = ?, resume = ? WHERE jobseeker_id = ?";
+        $query = "UPDATE jobseekers SET role = ?, skills = ?, bio = ?, resume = ? WHERE jobseeker_id = ?";
         $stmt = $conn->prepare($query);
-        $stmt->bind_param("ssss", $role, $skills, $resume_path, $jobseeker_id);
+        $stmt->bind_param("sssss", $role, $skills, $bio, $resume_path, $jobseeker_id);
         $stmt->execute();
         header("Location: dashboard.php");
         exit();
@@ -85,13 +86,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                    placeholder="e.g. Frontend Developer, HR Manager" />
           </div>
 
-          <!-- Skills -->
+        <!-- Skills -->
           <div>
             <label class="block text-sm font-medium text-gray-700">Skills</label>
             <input type="text" name="skills" required
                    class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                   placeholder="e.g. HTML, CSS, JavaScript, Python" />
+                     placeholder="e.g. HTML, CSS, JavaScript, Python" />
           </div>
+
+          <!-- bio -->
+          <div>
+            <label class="block text-sm font-medium text-gray-700">Bio</label>
+            <input type="text" name="bio" required
+                   class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                     placeholder="Enter your bio" />
+          </div>
+
 
           <!-- Resume Upload -->
           <div>
