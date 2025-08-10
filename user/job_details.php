@@ -35,7 +35,7 @@ $skills = explode(',', $job['skills_required']);
     
     <!-- Header -->
     <div class="flex flex-col sm:flex-row sm:items-center mb-6">
-      <img src="../uploads/company_logos/<?= htmlspecialchars($job['company_logo']) ?>" 
+      <img src="../uploads/company_logo/<?= htmlspecialchars($job['company_logo']) ?>" 
            alt="Company Logo" 
            class="w-20 h-20 rounded-full mb-4 sm:mb-0 sm:mr-6 border object-cover" />
       <div>

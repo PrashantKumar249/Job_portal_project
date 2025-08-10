@@ -1,11 +1,28 @@
 <?php
 session_start();
 if (!isset($_SESSION['jobseeker_id'])) {
-    header("Location: login.php");
-    exit();
+  header("Location: login.php");
+  exit();
 }
 
 require_once '../inc/db.php';
+
+// Fetch top 3 companies with most job posts
+$sql_top_companies = "
+    SELECT c.name, c.logo, COUNT(j.job_id) AS total_jobs
+    FROM jobs j
+    INNER JOIN companies c ON j.company_id = c.company_id
+    GROUP BY c.company_id
+    ORDER BY total_jobs DESC
+    LIMIT 5";
+$result_top_companies = mysqli_query($conn, $sql_top_companies);
+// $row = mysqli_fetch_array($result);
+// <!--while ($row = mysqli_fetch_array($result)) {
+//   echo $row['name'];
+// }
+
+
+
 
 // Define job categories with keywords
 $categories = [
@@ -25,7 +42,6 @@ $recommendedQuery = "
   LIMIT 10";
 $recommendedResult = mysqli_query($conn, $recommendedQuery);
 
-
 // Get job counts for each category
 $categoryCounts = [];
 foreach ($categories as $categoryName => $patterns) {
@@ -39,6 +55,16 @@ foreach ($categories as $categoryName => $patterns) {
   $countRow = mysqli_fetch_assoc($result);
   $categoryCounts[$categoryName] = $countRow['total'] ?? 0;
 }
+
+$jobseeker_id = $_SESSION['jobseeker_id'];
+$saved_query = "SELECT job_id FROM saved_jobs WHERE jobseeker_id= '$jobseeker_id'";
+$saved_result = mysqli_query($conn, $saved_query);
+$saved_job = [];
+while ($row = mysqli_fetch_assoc($saved_result)) {
+  $saved_job[] = $row['job_id'];
+}
+
+
 
 include('include/header.php');
 ?>
@@ -83,7 +109,7 @@ include('include/header.php');
               <input type="checkbox" class="rounded border-gray-300 text-blue-600 focus:ring-blue-500">
               <span class="ml-2 text-sm">Fresher</span>
             </label>
-             <label class="flex items-center">
+            <label class="flex items-center">
               <input type="checkbox" class="rounded border-gray-300 text-blue-600 focus:ring-blue-500">
               <span class="ml-2 text-sm">Junior</span>
             </label>
@@ -123,38 +149,30 @@ include('include/header.php');
       <section class="mb-8">
         <h2 class="text-2xl font-bold mb-6">Top Companies Hiring</h2>
         <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-          <div class="bg-white rounded-lg shadow-md p-4 text-center hover:shadow-lg transition duration-200">
-            <img src="<? $row['logo'] ?>?height=60&width=60" alt="Google" class="w-12 h-12 mx-auto mb-2">
-            <h3 class="font-semibold">Google</h3>
-            <p class="text-sm text-gray-600">45 open positions</p>
-          </div>
-          <div class="bg-white rounded-lg shadow-md p-4 text-center hover:shadow-lg transition duration-200">
-            <img src="<? $row['logo'] ?>?height=60&width=60" alt="Microsoft" class="w-12 h-12 mx-auto mb-2">
-            <h3 class="font-semibold">Microsoft</h3>
-            <p class="text-sm text-gray-600">32 open positions</p>
-          </div>
-          <div class="bg-white rounded-lg shadow-md p-4 text-center hover:shadow-lg transition duration-200">
-            <img src="<? $row['logo'] ?>?height=60&width=60" alt="Apple" class="w-12 h-12 mx-auto mb-2">
-            <h3 class="font-semibold">Apple</h3>
-            <p class="text-sm text-gray-600">28 open positions</p>
-          </div>
-          <div class="bg-white rounded-lg shadow-md p-4 text-center hover:shadow-lg transition duration-200">
-            <img src="<? $row['logo'] ?>?height=60&width=60" alt="Amazon" class="w-12 h-12 mx-auto mb-2">
-            <h3 class="font-semibold">Amazon</h3>
-            <p class="text-sm text-gray-600">67 open positions</p>
-          </div>
+          <?php while ($row_top_companies = mysqli_fetch_assoc($result_top_companies)): ?>
+            <div class="bg-white rounded-lg shadow-md p-4 text-center hover:shadow-lg transition duration-200">
+              <img src="../uploads/company_logo/<?= htmlspecialchars($row_top_companies['logo']) ?>" alt="<?=htmlspecialchars($row_top_companies['name']) ?>"
+                class="w-12 h-12 mx-auto mb-2 object-contain">
+              <h3 class="font-semibold"><?=htmlspecialchars($row_top_companies['name']) ?></h3>
+              <p class="text-sm text-gray-600"><?= $row_top_companies['total_jobs'] ?> open positions</p>
+            </div>
+          <?php endwhile; ?>
         </div>
       </section>
+
 
       <!-- Recommended Jobs -->
       <section class="mb-8">
         <h2 class="text-2xl font-bold mb-6">Recommended for You</h2>
         <div class="space-y-4">
           <?php while ($row = mysqli_fetch_assoc($recommendedResult)): ?>
+            <?php
+            $is_saved = in_array($row['job_id'], $saved_job);
+            ?>
             <div class="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition duration-200">
               <div class="flex justify-between items-start mb-4">
                 <div class="flex items-center">
-                  <img src="../uploads/company_logos/<?= htmlspecialchars($row['company_logo']) ?>?height=50&width=50"
+                  <img src="../uploads/company_logo/<?= htmlspecialchars($row['company_logo']) ?>?height=50&width=50"
                     alt="<?= htmlspecialchars($row['company_name']) ?>" class="w-12 h-12 rounded-lg mr-4">
                   <div>
                     <h3 class="text-lg font-semibold"><?= htmlspecialchars($row['title']) ?></h3>
@@ -162,9 +180,19 @@ include('include/header.php');
                     <p class="text-sm text-gray-500"><?= htmlspecialchars($row['location']) ?></p>
                   </div>
                 </div>
-                <button class="text-gray-400 hover:text-red-500">
-                  <i class="far fa-heart text-xl"></i>
+
+                <button
+                  class="save-job-btn transition <?= $is_saved ? 'text-red-500' : 'text-gray-400 hover:text-red-500' ?>"
+                  title="Save Job" data-job-id="<?= htmlspecialchars($row['job_id']) ?>">
+                  <i class="<?= $is_saved ? 'fas' : 'far' ?> fa-heart text-xl"></i>
                 </button>
+
+                <!-- Heart Button -->
+                <!-- <button class="save-job-btn transition-colors duration-200 <?= $is_saved ? 'text-red-600' : 'text-gray-400 hover:text-orange-500'; ?> title="Save Job"
+                  data-job-id="<?= $row['job_id'] ?>">
+                  <i class="far fa-heart text-xl"></i>
+                </button>  -->
+
               </div>
               <p class="text-gray-700 mb-4"><?= htmlspecialchars($row['description_title']) ?></p>
               <div class="flex flex-wrap gap-2 mb-4">
@@ -251,7 +279,7 @@ include('include/header.php');
 
 <?php include 'include/footer.php'; ?>
 
-<script>
+<!--<script>
   document.addEventListener('DOMContentLoaded', function () {
     const heartButtons = document.querySelectorAll('.fa-heart');
     heartButtons.forEach(button => {
@@ -262,4 +290,71 @@ include('include/header.php');
       });
     });
   });
+</script> -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+  $(document).ready(function () {
+    $('.save-job-btn').click(function (e) {
+      e.preventDefault();
+
+      let btn = $(this);
+      let jobId = btn.data('job-id');
+
+      $.ajax({
+        url: 'toggle_saved.php', // update to your toggle PHP file path
+        type: 'POST',
+        data: { job_id: jobId },
+        dataType: 'json',
+        success: function (response) {
+          if (response.status === 'saved') {
+            btn.find('i').removeClass('far').addClass('fas text-red-500');
+            alert(response.message);
+          } else if (response.status === 'removed') {
+            btn.find('i').removeClass('fas text-red-500').addClass('far');
+            alert(response.message);
+          } else {
+            alert('Error: ' + response.message);
+          }
+        },
+        error: function () {
+          alert('Something went wrong. Please try again!');
+        }
+      });
+    });
+  });
 </script>
+
+
+<!--<script>
+  $(document).ready(function () {
+    $('.save-job-btn').click(function (e) {
+      e.preventDefault();
+
+      let btn = $(this);
+      let jobId = btn.data('job-id');
+
+      $.ajax({
+        url: 'saved_job.php',
+        type: 'POST',
+        data: { job_id: jobId },
+        dataType: 'json',
+        success: function (response) {
+          if (response.status === 'success') {
+            // Change heart icon to filled and red
+            btn.find('i').removeClass('far').addClass('fas text-red-500');
+
+            // Show success alert (you can style it better)
+            alert('Job saved successfully!');
+          } else if (response.status === 'exists') {
+            alert('You have already saved this job.');
+          } else {
+            alert('Error: ' + response.message);
+          }
+        },
+        error: function () {
+          alert('Something went wrong. Please try again!');
+        }
+      });
+    });
+  });
+</script>  -->

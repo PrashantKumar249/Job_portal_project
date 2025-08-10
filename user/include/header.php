@@ -7,6 +7,7 @@
   <title>NaukariPro - Find Your Dream Job</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 
 <body class="bg-gray-50">
@@ -67,8 +68,8 @@
       <h2 class="text-4xl font-bold mb-4">Find Your Dream Job Today</h2>
       <p class="text-xl mb-8">Discover thousands of job opportunities from top companies</p>
 
-      <!-- Search Bar -->
-      <div class="max-w-4xl mx-auto bg-white rounded-lg shadow-lg p-4">
+      <!-- Search Bar Old -->
+      <!-- <div class="max-w-4xl mx-auto bg-white rounded-lg shadow-lg p-4">
         <div class="flex flex-col md:flex-row gap-4">
           <div class="flex-1">
             <div class="relative">
@@ -89,6 +90,109 @@
             Search Jobs
           </button>
         </div>
+      </div>  -->
+      <!--Search baar -->
+      <div class="max-w-2xl mx-auto bg-white rounded-lg shadow-lg p-4">
+        <div class="flex flex-col md:flex-row gap-2">
+          <!-- Job search input -->
+          <div class="flex-1">
+            <div class="relative">
+              <i class="fas fa-search absolute left-3 top-3 text-gray-400"></i>
+              <input id="search_job" type="text" placeholder="Job title, keyword or company"
+                class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 h-10">
+              <!-- Suggestion dropdown -->
+              <div id="suggestion-box"
+                class="absolute bg-black border border-gray-300 rounded-lg mt-1 w-full hidden z-10"></div>
+            </div>
+          </div>
+
+          <!-- Search button -->
+          <button id="search_btn"
+            class="bg-blue-600 hover:bg-blue-700 text-white px-4 h-10 rounded-lg font-semibold transition duration-200">
+            Search
+          </button>
+        </div>
       </div>
+
+
     </div>
   </section>
+  <script>
+    $(document).ready(function () {
+      // Typing in job search input
+      $('#search_job').on('keyup input', function () {
+        let query = $(this).val();
+        if (query.length > 0) {
+          $.ajax({
+            url: 'search_suggest.php',
+            method: 'POST',
+            data: { query: query },
+            success: function (data) {
+              $('#suggestion-box').html(data).removeClass('hidden');
+            }
+          });
+        } else {
+          $('#suggestion-box').addClass('hidden');
+        }
+      });
+
+      // Click on suggestion
+      $(document).on('click', '.suggestion-item', function () {
+        let text = $(this).text();
+        $('#search_job').val(text);
+        $('#suggestion-box').addClass('hidden');
+        // searchJobs(text, $('#search_location').val());
+        $.ajax({
+          url: 'search_job.php',
+          method: 'POST',
+          data: { query: text },
+          success: function (data) {
+            $('#menuItems').html(data);
+          }
+        });
+      });
+
+      // Search button click
+      $('#search_btn').click(function () {
+        let job = $('#search_job').val();
+        let location = $('#search_location').val();
+        searchJobs(job, location);
+      });
+
+      // Press Enter in any search field
+      $('#search_job, #search_location').keypress(function (e) {
+        if (e.which == 13) {
+          e.preventDefault();
+          searchJobs($('#search_job').val(), $('#search_location').val());
+        }
+      });
+
+      // Function to fetch jobs
+      function searchJobs(job, location) {
+        $.ajax({
+          url: 'search_job.php',
+          method: 'POST',
+          data: { job: job, location: location },
+          success: function (data) {
+            $('#jobResults').html(data);
+          }
+        });
+      }
+    });
+  </script>
+
+  <script>
+    document.getElementById("search_btn").addEventListener("click", function () {
+      let job = document.getElementById("search_job").value.trim();
+      // If you want location, uncomment this
+      // let location = document.getElementById("search_location").value.trim();
+
+      if (job === "") {
+        alert("Please enter a job title or keyword");
+        return;
+      }
+
+      // Redirect to search results page with query params
+      window.location.href = "view_all_jobs.php?search_job=" + encodeURIComponent(job);
+    });
+  </script>

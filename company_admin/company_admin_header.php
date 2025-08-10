@@ -45,8 +45,7 @@ $adminName = $_SESSION['company_admin_name'] ?? 'Company Admin';
         <a href="manage_jobs.php" class="block px-4 py-2 hover:bg-gray-100">💼 Jobs</a>
         <a href="manage_jobs.php" class="block px-4 py-2 hover:bg-gray-100">📄 Applications</a>
         <hr class="my-1 border-t">
-        <a href="profile.php" class="block px-4 py-2 hover:bg-gray-100">👤 Profile</a>
-        <a href="change_password.php" class="block px-4 py-2 hover:bg-gray-100">🔒 Change Password</a>
+        <a href="admin_profile.php" class="block px-4 py-2 hover:bg-gray-100">👤 Profile</a>
         <a href="logout.php" class="block px-4 py-2 text-red-600 hover:bg-gray-100">🚪 Logout</a>
       </div>
     </div>
