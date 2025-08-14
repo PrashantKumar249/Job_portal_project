@@ -4,20 +4,13 @@ if (!isset($_SESSION['superadmin_id'])) {
     header("Location: login.php");
     exit();
 }
+
+// Header Include
+ include 'super_admin_header.php';
 ?>
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Superadmin Dashboard</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <script src="https://cdn.tailwindcss.com"></script>
-</head>
-<body class="bg-gray-50 min-h-screen font-sans">
 
-  <!-- Header Include -->
-  <?php include 'super_admin_header.php'; ?>
+<body class="bg-gray-50 min-h-screen font-sans">
 
   <!-- Dashboard Content -->
   <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
@@ -33,7 +26,7 @@ if (!isset($_SESSION['superadmin_id'])) {
       <!-- Card 2 -->
       <a href="manage_admins.php" class="bg-white rounded-lg shadow-md hover:shadow-xl transition-shadow border-t-4 border-green-500 p-6 group">
         <h3 class="text-lg font-semibold text-green-700 group-hover:underline">Manage Company Admins</h3>
-        <p class="text-gray-600 mt-2">Create and manage HR/company admin accounts.</p>
+        <p class="text-gray-600 mt-2"> manage HR/company admin accounts.</p>
       </a>
 
       <!-- Card 3 -->
@@ -45,4 +38,4 @@ if (!isset($_SESSION['superadmin_id'])) {
   </main>
 
 </body>
-</html>
+

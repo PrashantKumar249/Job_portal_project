@@ -11,23 +11,23 @@ include 'company_admin_header.php';
 $adminId = $_SESSION['company_admin_id'];
 
 // Fetch admin & company name
-$sql = "SELECT ca.name AS admin_name, c.name AS company_name, c.company_id as company_id
-        FROM company_admins ca 
-        JOIN companies c ON ca.company_id = c.company_id 
-        WHERE ca.company_admin_id = ?";
+// $sql = "SELECT ca.name AS admin_name, c.name AS company_name, c.company_id as company_id
+//         FROM company_admins ca 
+//         JOIN companies c ON ca.company_id = c.company_id 
+//         WHERE ca.company_admin_id = ?";
 
-$stmt = $conn->prepare($sql);
-$stmt->bind_param("s", $adminId);
-$stmt->execute();
-$result = $stmt->get_result();
+// $stmt = $conn->prepare($sql);
+// $stmt->bind_param("s", $adminId);
+// $stmt->execute();
+// $result = $stmt->get_result();
 
-$data = $result->fetch_assoc();
-if (!$data) {
-    echo "<p class='text-red-500'>Admin not found.</p>";
-    exit();
-}
+// $data = $result->fetch_assoc();
+// if (!$data) {
+//     echo "<p class='text-red-500'>Admin not found.</p>";
+//     exit();
+// }
 
-$company_id = $data["company_id"];
+// $company_id = $data["company_id"];
 /*echo $company_id;
 $logo_fetch = "SELECT logo FROM companies WHERE company_id = ?";
 $stmt = $conn->prepare($logo_fetch);
@@ -43,14 +43,14 @@ echo "<img src='uploads/companies/" . htmlspecialchars($logo_data['logo']) . "' 
 
 <!-- DASHBOARD BODY -->
 <div class="max-w-7xl mx-auto px-4 py-10">
-    <div class="mb-10">
+    <!-- <div class="mb-10">
         <h1 class="text-4xl font-bold text-gray-800">
             👋 Welcome, <span class="text-blue-600"><?= htmlspecialchars($data['admin_name']) ?></span>
         </h1>
         <p class="text-lg text-gray-600 mt-1">
             Company: <span class="font-medium text-green-700"><?= htmlspecialchars($data['company_name']) ?></span>
         </p>
-    </div>
+    </div> -->
 
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
 

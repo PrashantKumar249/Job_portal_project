@@ -75,73 +75,76 @@ include('include/header.php');
   <div class="flex flex-col lg:flex-row gap-8">
     <!-- Sidebar Filters -->
     <aside class="lg:w-1/4">
-      <div class="bg-white rounded-lg shadow-md p-6 sticky top-24">
-        <h3 class="text-lg font-semibold mb-4">Filter Jobs</h3>
+  <form id="filterForm" class="bg-white rounded-lg shadow-md p-6 sticky top-24">
+    <h3 class="text-lg font-semibold mb-4">Filter Jobs</h3>
 
-        <!-- Job Type Filter -->
-        <div class="mb-6">
-          <h4 class="font-medium mb-3">Job Type</h4>
-          <div class="space-y-2">
-            <label class="flex items-center">
-              <input type="checkbox" class="rounded border-gray-300 text-blue-600 focus:ring-blue-500">
-              <span class="ml-2 text-sm">Internship</span>
-            </label>
-            <label class="flex items-center">
-              <input type="checkbox" class="rounded border-gray-300 text-blue-600 focus:ring-blue-500">
-              <span class="ml-2 text-sm">Part-time</span>
-            </label>
-            <label class="flex items-center">
-              <input type="checkbox" class="rounded border-gray-300 text-blue-600 focus:ring-blue-500">
-              <span class="ml-2 text-sm">Full-time</span>
-            </label>
-            <label class="flex items-center">
-              <input type="checkbox" class="rounded border-gray-300 text-blue-600 focus:ring-blue-500">
-              <span class="ml-2 text-sm">Contract</span>
-            </label>
-          </div>
-        </div>
-
-        <!-- Experience Level -->
-        <div class="mb-6">
-          <h4 class="font-medium mb-3">Experience Level</h4>
-          <div class="space-y-2">
-            <label class="flex items-center">
-              <input type="checkbox" class="rounded border-gray-300 text-blue-600 focus:ring-blue-500">
-              <span class="ml-2 text-sm">Fresher</span>
-            </label>
-            <label class="flex items-center">
-              <input type="checkbox" class="rounded border-gray-300 text-blue-600 focus:ring-blue-500">
-              <span class="ml-2 text-sm">Junior</span>
-            </label>
-            <label class="flex items-center">
-              <input type="checkbox" class="rounded border-gray-300 text-blue-600 focus:ring-blue-500">
-              <span class="ml-2 text-sm">Mid</span>
-            </label>
-            <label class="flex items-center">
-              <input type="checkbox" class="rounded border-gray-300 text-blue-600 focus:ring-blue-500">
-              <span class="ml-2 text-sm">Senior</span>
-            </label>
-          </div>
-        </div>
-
-        <!-- Salary Range -->
-        <div class="mb-6">
-          <h4 class="font-medium mb-3">Salary Range</h4>
-          <select class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
-            <option>Any Salary</option>
-            <option>$30k - $50k</option>
-            <option>$50k - $75k</option>
-            <option>$75k - $100k</option>
-            <option>$100k+</option>
-          </select>
-        </div>
-
-        <button
-          class="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 rounded-lg font-semibold transition duration-200">
-          Apply Filters
-        </button>
+    <!-- Job Type -->
+    <div class="mb-6">
+      <h4 class="font-medium mb-3">Job Type</h4>
+      <div class="space-y-2">
+        <label class="flex items-center">
+          <input type="checkbox" name="job_type[]" value="internship" class="rounded border-gray-300 text-blue-600 focus:ring-blue-500">
+          <span class="ml-2 text-sm">Internship</span>
+        </label>
+        <label class="flex items-center">
+          <input type="checkbox" name="job_type[]" value="part-time" class="rounded border-gray-300 text-blue-600 focus:ring-blue-500">
+          <span class="ml-2 text-sm">Part-time</span>
+        </label>
+        <label class="flex items-center">
+          <input type="checkbox" name="job_type[]" value="full-time" class="rounded border-gray-300 text-blue-600 focus:ring-blue-500">
+          <span class="ml-2 text-sm">Full-time</span>
+        </label>
+        <label class="flex items-center">
+          <input type="checkbox" name="job_type[]" value="contract" class="rounded border-gray-300 text-blue-600 focus:ring-blue-500">
+          <span class="ml-2 text-sm">Contract</span>
+        </label>
       </div>
-    </aside>
+    </div>
+
+    <!-- Experience Level -->
+    <div class="mb-6">
+      <h4 class="font-medium mb-3">Experience Level</h4>
+      <div class="space-y-2">
+        <label class="flex items-center">
+          <input type="checkbox" name="experience_level[]" value="fresher" class="rounded border-gray-300 text-blue-600 focus:ring-blue-500">
+          <span class="ml-2 text-sm">Fresher</span>
+        </label>
+        <label class="flex items-center">
+          <input type="checkbox" name="experience_level[]" value="junior" class="rounded border-gray-300 text-blue-600 focus:ring-blue-500">
+          <span class="ml-2 text-sm">Junior</span>
+        </label>
+        <label class="flex items-center">
+          <input type="checkbox" name="experience_level[]" value="mid" class="rounded border-gray-300 text-blue-600 focus:ring-blue-500">
+          <span class="ml-2 text-sm">Mid</span>
+        </label>
+        <label class="flex items-center">
+          <input type="checkbox" name="experience_level[]" value="senior" class="rounded border-gray-300 text-blue-600 focus:ring-blue-500">
+          <span class="ml-2 text-sm">Senior</span>
+        </label>
+      </div>
+    </div>
+
+    <!-- Salary Range -->
+    <div class="mb-6">
+      <h4 class="font-medium mb-3">Salary Range</h4>
+      <select id="salary_range" name="salary_range"
+  class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
+  <option value="">Any Salary</option>
+  <option value="30000-50000">$30k - $50k</option>
+  <option value="50000-75000">$50k - $75k</option>
+  <option value="75000-100000">$75k - $100k</option>
+  <option value="100000-9999999">$100k+</option>
+</select>
+
+    </div>
+
+    <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 rounded-lg font-semibold transition duration-200">
+      Apply Filters
+    </button>
+  </form>
+</aside>
+
+
 
     <!-- Main Content -->
     <main class="lg:w-3/4">
@@ -151,15 +154,16 @@ include('include/header.php');
         <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
           <?php while ($row_top_companies = mysqli_fetch_assoc($result_top_companies)): ?>
             <div class="bg-white rounded-lg shadow-md p-4 text-center hover:shadow-lg transition duration-200">
-              <img src="../uploads/company_logo/<?= htmlspecialchars($row_top_companies['logo']) ?>" alt="<?=htmlspecialchars($row_top_companies['name']) ?>"
-                class="w-12 h-12 mx-auto mb-2 object-contain">
-              <h3 class="font-semibold"><?=htmlspecialchars($row_top_companies['name']) ?></h3>
+              <img src="../uploads/company_logo/<?= htmlspecialchars($row_top_companies['logo']) ?>"
+                alt="<?= htmlspecialchars($row_top_companies['name']) ?>" class="w-12 h-12 mx-auto mb-2 object-contain">
+              <h3 class="font-semibold"><?= htmlspecialchars($row_top_companies['name']) ?></h3>
               <p class="text-sm text-gray-600"><?= $row_top_companies['total_jobs'] ?> open positions</p>
             </div>
           <?php endwhile; ?>
         </div>
       </section>
 
+<div id="job-results"></div>
 
       <!-- Recommended Jobs -->
       <section class="mb-8">
@@ -277,84 +281,44 @@ include('include/header.php');
   </div>
 </div>
 
-<?php include 'include/footer.php'; ?>
+<?php include 'include/footer.php'; ?> 
 
-<!--<script>
-  document.addEventListener('DOMContentLoaded', function () {
-    const heartButtons = document.querySelectorAll('.fa-heart');
-    heartButtons.forEach(button => {
-      button.addEventListener('click', function () {
-        this.classList.toggle('far');
-        this.classList.toggle('fas');
-        this.classList.toggle('text-red-500');
-      });
-    });
-  });
-</script> -->
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
-  $(document).ready(function () {
-    $('.save-job-btn').click(function (e) {
-      e.preventDefault();
-
-      let btn = $(this);
-      let jobId = btn.data('job-id');
-
-      $.ajax({
-        url: 'toggle_saved.php', // update to your toggle PHP file path
-        type: 'POST',
-        data: { job_id: jobId },
-        dataType: 'json',
-        success: function (response) {
-          if (response.status === 'saved') {
-            btn.find('i').removeClass('far').addClass('fas text-red-500');
-            alert(response.message);
-          } else if (response.status === 'removed') {
-            btn.find('i').removeClass('fas text-red-500').addClass('far');
-            alert(response.message);
-          } else {
-            alert('Error: ' + response.message);
-          }
-        },
-        error: function () {
-          alert('Something went wrong. Please try again!');
-        }
-      });
+function loadJobs() {
+    var jobType = [];
+    $('input[name="job_type[]"]:checked').each(function() {
+        jobType.push($(this).val());
     });
-  });
+
+    var experienceLevel = [];
+    $('input[name="experience_level[]"]:checked').each(function() {
+        experienceLevel.push($(this).val());
+    });
+
+    var salaryRange = $('#salary_range').val();
+    console.log(salaryRange);
+
+    $.ajax({
+        url: "filter_job.php",
+        type: "POST",
+        data: {
+            job_type: jobType,
+            experience_level: experienceLevel,
+            salary_range: salaryRange
+        },
+        success: function(data) {
+            $('#job-results').html(data);
+        }
+    });
+}
+
+// Load jobs on page load
+$(document).ready(function() {
+    loadJobs();
+
+    // Reload when filters change
+    $('input[name="job_type[]"], input[name="experience_level[]"], #salary_range').on('change', function() {
+        loadJobs();
+    });
+});
 </script>
-
-
-<!--<script>
-  $(document).ready(function () {
-    $('.save-job-btn').click(function (e) {
-      e.preventDefault();
-
-      let btn = $(this);
-      let jobId = btn.data('job-id');
-
-      $.ajax({
-        url: 'saved_job.php',
-        type: 'POST',
-        data: { job_id: jobId },
-        dataType: 'json',
-        success: function (response) {
-          if (response.status === 'success') {
-            // Change heart icon to filled and red
-            btn.find('i').removeClass('far').addClass('fas text-red-500');
-
-            // Show success alert (you can style it better)
-            alert('Job saved successfully!');
-          } else if (response.status === 'exists') {
-            alert('You have already saved this job.');
-          } else {
-            alert('Error: ' + response.message);
-          }
-        },
-        error: function () {
-          alert('Something went wrong. Please try again!');
-        }
-      });
-    });
-  });
-</script>  -->

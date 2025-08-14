@@ -6,15 +6,24 @@ if (!isset($_SESSION['company_admin_id'])) {
     header("Location: login.php");
     exit();
 }
-
+$company_admin_id = $_SESSION["company_admin_id"];
 $adminName = $_SESSION['company_admin_name'] ?? 'Company Admin';
+$query = "SELECT companies.name, companies.logo
+          FROM companies
+          INNER JOIN company_admins 
+          ON companies.company_id = company_admins.company_id
+          WHERE company_admins.company_admin_id = '$company_admin_id'";
+$result = mysqli_query($conn, $query);
+if (mysqli_num_rows($result) > 0) {
+  $row = mysqli_fetch_assoc($result);
+}
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Company Admin Panel</title>
+  <title><?php echo $row['name'] ?> Admin Panel</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
@@ -25,10 +34,26 @@ $adminName = $_SESSION['company_admin_name'] ?? 'Company Admin';
   <div class="max-w-7xl mx-auto px-4 py-4 flex flex-col sm:flex-row justify-between items-center">
     
     <!-- Left: Title -->
-    <div class="text-center sm:text-left">
-      <h1 class="text-3xl font-extrabold tracking-wide">Company Admin Panel</h1>
-      <p class="text-sm text-green-200 mt-1">Manage your jobs & applications</p>
+    <div class="flex flex-col sm:flex-row items-center sm:items-start gap-4 sm:gap-6 text-center sm:text-left p-4 sm:p-6 rounded-lg ">
+    <!-- Logo -->
+    <div class="flex-shrink-0">
+        <img src="../uploads/company_logo/<?php echo $row['logo']; ?>" 
+             alt="Logo" 
+             class="w-16 h-16 sm:w-20 sm:h-20 object-cover rounded-full border-2 border-white shadow" />
     </div>
+
+    <!-- Text Content -->
+    <div>
+        <h1 class="text-2xl sm:text-3xl font-extrabold tracking-wide text-white">
+            <?php echo htmlspecialchars($row['name']); ?> 
+            <span class="text-yellow-300">Admin Panel</span>
+        </h1>
+        <p class="text-sm sm:text-base text-green-100 mt-1">
+            Manage your jobs &amp; applications
+        </p>
+    </div>
+</div>
+
 
     <!-- Right: Dropdown -->
     <div class="mt-4 sm:mt-0 relative">

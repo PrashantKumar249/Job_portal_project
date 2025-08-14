@@ -28,7 +28,7 @@ include "include/header.php";
                     <!-- Logo -->
                     <div class="flex justify-center mb-4">
                         <?php if (!empty($company['logo'])): ?>
-                            <img src="../Uploads/company_logos/<?php echo htmlspecialchars($company['logo']); ?>" alt="Company Logo" class="w-24 h-24 object-contain rounded-full border-2 border-blue-100">
+                            <img src="../Uploads/company_logo/<?php echo htmlspecialchars($company['logo']); ?>" alt="Company Logo" class="w-24 h-24 object-contain rounded-full border-2 border-blue-100">
                         <?php else: ?>
                             <div class="w-24 h-24 bg-blue-100 rounded-full flex items-center justify-center text-blue-600 font-medium">
                                 No Logo

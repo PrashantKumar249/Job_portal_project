@@ -41,7 +41,6 @@ CREATE TABLE IF NOT EXISTS `applications` (
   `job_id` varchar(100) NOT NULL,
   `jobseeker_id` varchar(100) NOT NULL,
   `resume` varchar(255) DEFAULT NULL,
-  `cover_letter` text,
   `status` enum('pending','shortlisted','interview','rejected','hired') DEFAULT 'pending',
   `applied_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`sr_no`),
@@ -50,14 +49,25 @@ CREATE TABLE IF NOT EXISTS `applications` (
   KEY `jobseeker_id` (`jobseeker_id`),
   CONSTRAINT `applications_ibfk_1` FOREIGN KEY (`job_id`) REFERENCES `jobs` (`job_id`) ON DELETE CASCADE,
   CONSTRAINT `applications_ibfk_2` FOREIGN KEY (`jobseeker_id`) REFERENCES `jobseekers` (`jobseeker_id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- Dumping data for table job_portal.applications: ~4 rows (approximately)
-INSERT INTO `applications` (`sr_no`, `application_id`, `job_id`, `jobseeker_id`, `resume`, `cover_letter`, `status`, `applied_at`) VALUES
-	(1, 'AS6191', 'JOB1754496071', 'JS5237', NULL, NULL, 'pending', '2025-08-09 10:36:45'),
-	(2, 'AS8520', 'JOB1754496209', 'JS5237', NULL, NULL, 'pending', '2025-08-09 10:41:36'),
-	(3, 'AS3512', 'JOB1754622993', 'JS7222', NULL, NULL, 'pending', '2025-08-09 11:05:12'),
-	(4, 'AS4297', 'JOB1754496816', 'JS7222', NULL, NULL, 'pending', '2025-08-09 11:08:02');
+-- Dumping data for table job_portal.applications: ~15 rows (approximately)
+INSERT INTO `applications` (`sr_no`, `application_id`, `job_id`, `jobseeker_id`, `resume`, `status`, `applied_at`) VALUES
+	(1, 'AP6191', 'JOB1754496071', 'JS5237', NULL, 'rejected', '2025-08-09 10:36:45'),
+	(2, 'AP8520', 'JOB1754496209', 'JS5237', NULL, 'pending', '2025-08-09 10:41:36'),
+	(3, 'AP3512', 'JOB1754622993', 'JS7222', NULL, 'pending', '2025-08-09 11:05:12'),
+	(4, 'AP4297', 'JOB1754496816', 'JS7222', NULL, 'interview', '2025-08-09 11:08:02'),
+	(5, 'AP7384', 'JOB1754622993', 'JS6027', NULL, 'pending', '2025-08-09 12:10:08'),
+	(6, 'AP9828', 'JOB1754622993', 'JS5237', NULL, 'shortlisted', '2025-08-09 14:31:00'),
+	(7, 'AP1268', 'JOB1754622993', 'JS8544', NULL, 'pending', '2025-08-09 16:02:18'),
+	(8, 'AP7948', 'JOB1754496836', 'JS8544', NULL, 'interview', '2025-08-09 16:02:59'),
+	(9, 'AP5712', 'JOB1754496816', 'JS8544', NULL, 'interview', '2025-08-09 16:03:13'),
+	(10, 'AP3451', 'JOB1754496529', 'JS8544', NULL, 'hired', '2025-08-09 16:03:24'),
+	(11, 'AP6980', 'JOB1754482871', 'JS8544', NULL, 'pending', '2025-08-09 16:03:37'),
+	(12, 'AP5966', 'JOB1754496626', 'JS8544', NULL, 'shortlisted', '2025-08-09 17:00:50'),
+	(13, 'AP8626', 'JOB1754483009', 'JS5237', NULL, 'rejected', '2025-08-10 04:03:43'),
+	(14, 'AP5212', 'JOB1754482245', 'JS5237', NULL, 'pending', '2025-08-10 04:05:38'),
+	(15, 'AP1915', 'JOB1754496816', 'JS5237', NULL, 'interview', '2025-08-10 04:37:28');
 
 -- Dumping structure for table job_portal.companies
 CREATE TABLE IF NOT EXISTS `companies` (
@@ -74,31 +84,29 @@ CREATE TABLE IF NOT EXISTS `companies` (
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`sr_no`),
   UNIQUE KEY `company_id` (`company_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=42 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=44 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- Dumping data for table job_portal.companies: ~21 rows (approximately)
+-- Dumping data for table job_portal.companies: ~19 rows (approximately)
 INSERT INTO `companies` (`sr_no`, `company_id`, `name`, `logo`, `description`, `industry`, `website`, `address`, `contact_email`, `contact_phone`, `created_at`) VALUES
-	(1, 'CMP9888', 'TCS', '', 'tcs company', 'abc', 'http://localhost/job_portal_project/super_admin/add_company.php', 'Lucknow', 'tcs@abc.com', '9998936416', '2025-08-05 04:36:03'),
-	(2, 'CMP9540', 'TCS', '', 'tcs company', 'abc', 'http://localhost/job_portal_project/super_admin/add_company.php', 'Lucknow', 'tcs@abc.com', '9998936416', '2025-08-05 04:40:41'),
-	(6, 'CMP5391', 'Orinson Technology', '', 'Orienson is a software based company', 'tech', 'https://github.com/dashboard', 'Patna, Bihar', 'orienson@gmail.com', '9456789234', '2025-08-05 06:00:29'),
-	(7, 'comp001', 'TechNova', '', 'Leading IT solutions', 'IT', 'https://technova.com', 'Delhi', 'hr@technova.com', '9876543210', '2025-08-05 06:40:38'),
-	(8, 'comp002', 'MediCare Ltd', '', 'Healthcare services', 'Healthcare', 'https://medicare.com', 'Mumbai', 'jobs@medicare.com', '9876543211', '2025-08-05 06:40:38'),
-	(9, 'comp003', 'EcoBuild', '', 'Eco-friendly construction', 'Construction', 'https://ecobuild.com', 'Bangalore', 'careers@ecobuild.com', '9876543212', '2025-08-05 06:40:38'),
-	(13, 'comp007', 'GreenTech', '', 'Green energy innovation', 'Energy', 'https://greentech.com', 'Pune', 'team@greentech.com', '9876543216', '2025-08-05 06:40:38'),
-	(14, 'comp008', 'StyleWear', '', 'Fashion & Apparel', 'Retail', 'https://stylewear.com', 'Jaipur', 'careers@stylewear.com', '9876543217', '2025-08-05 06:40:38'),
-	(15, 'comp009', 'AutoPro', '', 'Automotive solutions', 'Automotive', 'https://autopro.com', 'Nagpur', 'jobs@autopro.com', '9876543218', '2025-08-05 06:40:38'),
-	(16, 'comp010', 'BookHive', '', 'Online Bookstore', 'E-commerce', 'https://bookhive.com', 'Ahmedabad', 'hello@bookhive.com', '9876543219', '2025-08-05 06:40:38'),
-	(17, 'comp011', 'SkyNet Solutions', '', 'IoT and Smart Devices', 'Tech', 'https://skynetsol.com', 'Lucknow', 'admin@skynetsol.com', '9880010011', '2025-08-05 06:40:38'),
-	(18, 'comp012', 'HealthKart', '', 'Healthcare and fitness', 'Healthcare', 'https://healthkart.com', 'Noida', 'support@healthkart.com', '9880010012', '2025-08-05 06:40:38'),
-	(19, 'comp013', 'TravelWings', '', 'Travel booking services', 'Travel', 'https://travelwings.com', 'Goa', 'hr@travelwings.com', '9880010013', '2025-08-05 06:40:38'),
-	(20, 'comp014', 'EduPrime', '', 'Online Courses Platform', 'Education', 'https://eduprime.com', 'Patna', 'contact@eduprime.com', '9880010014', '2025-08-05 06:40:38'),
-	(21, 'comp015', 'SmartPay', '', 'Online Payment Gateway', 'Fintech', 'https://smartpay.com', 'Indore', 'jobs@smartpay.com', '9880010015', '2025-08-05 06:40:38'),
-	(22, 'comp016', 'CodeCrush', '', 'Coding Bootcamp', 'Education', 'https://codecrush.com', 'Bhopal', 'hello@codecrush.com', '9880010016', '2025-08-05 06:40:38'),
-	(23, 'comp017', 'FreshKart', '', 'Online Grocery Delivery', 'Retail', 'https://freshkart.com', 'Surat', 'jobs@freshkart.com', '9880010017', '2025-08-05 06:40:38'),
-	(24, 'comp018', 'NewsX', '', 'News & Media Agency', 'Media', 'https://newsx.com', 'Raipur', 'editor@newsx.com', '9880010018', '2025-08-05 06:40:38'),
-	(25, 'comp019', 'BuildMaster', '', 'Construction Software', 'Tech', 'https://buildmaster.com', 'Chandigarh', 'hr@buildmaster.com', '9880010019', '2025-08-05 06:40:38'),
-	(26, 'comp020', 'FarmConnect', '', 'AgriTech Startup', 'Agriculture', 'https://farmconnect.com', 'Ranchi', 'contact@farmconnect.com', '9880010020', '2025-08-05 06:40:38'),
-	(41, 'CMP2635', 'TEST', 'logo_TEST_68970556574e4.jpg', 'test', 'test', 'https://www.technova.com', 'test', 'test@test.com', '987543219', '2025-08-09 08:22:46');
+	(7, 'comp001', 'TechNova', 'SkyNet.jpg', 'Leading IT solutions', 'IT', 'https://technova.com', 'Delhi', 'hr@technova.com', '9876543210', '2025-08-05 06:40:38'),
+	(8, 'comp002', 'MediCare Ltd', 'SkyNet.jpg', 'Healthcare services', 'Healthcare', 'https://medicare.com', 'Mumbai', 'jobs@medicare.com', '9876543212', '2025-08-05 06:40:38'),
+	(9, 'comp003', 'EcoBuild', 'Ecobild.jpg', 'Eco-friendly construction', 'Construction', 'https://ecobuild.com', 'Bangalore', 'careers@ecobuild.com', '9876543212', '2025-08-05 06:40:38'),
+	(13, 'comp007', 'GreenTech', 'AutoPro.jpg', 'Green energy innovation', 'Energy', 'https://greentech.com', 'Pune', 'team@greentech.com', '9876543216', '2025-08-05 06:40:38'),
+	(14, 'comp008', 'StyleWear', 'Ecobild.jpg', 'Fashion & Apparel', 'Retail', 'https://stylewear.com', 'Jaipur', 'careers@stylewear.com', '9876543217', '2025-08-05 06:40:38'),
+	(15, 'comp009', 'AutoPro', 'AutoPro.jpg', 'Automotive solutions', 'Automotive', 'https://autopro.com', 'Nagpur', 'jobs@autopro.com', '9876543218', '2025-08-05 06:40:38'),
+	(16, 'comp010', 'BookHive', 'Medicare.jpg', 'Online Bookstore', 'E-commerce', 'https://bookhive.com', 'Ahmedabad', 'hello@bookhive.com', '9876543219', '2025-08-05 06:40:38'),
+	(17, 'comp011', 'SkyNet Solutions', 'Medicare.jpg', 'IoT and Smart Devices', 'Tech', 'https://skynetsol.com', 'Lucknow', 'admin@skynetsol.com', '9880010011', '2025-08-05 06:40:38'),
+	(18, 'comp012', 'HealthKart', 'AutoPro.jpg', 'Healthcare and fitness', 'Healthcare', 'https://healthkart.com', 'Noida', 'support@healthkart.com', '9880010012', '2025-08-05 06:40:38'),
+	(19, 'comp013', 'TravelWings', 'SkyNet.jpg', 'Travel booking services', 'Travel', 'https://travelwings.com', 'Goa', 'hr@travelwings.com', '9880010013', '2025-08-05 06:40:38'),
+	(20, 'comp014', 'EduPrime', 'AutoPro.jpg', 'Online Courses Platform', 'Education', 'https://eduprime.com', 'Patna', 'contact@eduprime.com', '9880010014', '2025-08-05 06:40:38'),
+	(21, 'comp015', 'SmartPay', 'Ecobild.jpg', 'Online Payment Gateway', 'Fintech', 'https://smartpay.com', 'Indore', 'jobs@smartpay.com', '9880010015', '2025-08-05 06:40:38'),
+	(22, 'comp016', 'CodeCrush', 'Medicare.jpg', 'Coding Bootcamp', 'Education', 'https://codecrush.com', 'Bhopal', 'hello@codecrush.com', '9880010016', '2025-08-05 06:40:38'),
+	(23, 'comp017', 'FreshKart', 'Medicare.jpg', 'Online Grocery Delivery', 'Retail', 'https://freshkart.com', 'Surat', 'jobs@freshkart.com', '9880010017', '2025-08-05 06:40:38'),
+	(24, 'comp018', 'NewsX', 'SkyNet.jpg', 'News & Media Agency', 'Media', 'https://newsx.com', 'Raipur', 'editor@newsx.com', '9880010018', '2025-08-05 06:40:38'),
+	(25, 'comp019', 'BuildMaster', 'logo.jpg', 'Construction Software', 'Tech', 'https://buildmaster.com', 'Chandigarh', 'hr@buildmaster.com', '9880010019', '2025-08-05 06:40:38'),
+	(26, 'comp020', 'FarmConnect', 'Medicare.jpg', 'AgriTech Startup', 'Agriculture', 'https://farmconnect.com', 'Ranchi', 'contact@farmconnect.com', '9880010020', '2025-08-05 06:40:38'),
+	(42, 'CMP6329', 'Test', 'samosa.png', 'eui31', 'Test', 'http://localhost/job_portal_project/super_admin/add_company.php', 'MOHANLALGANJ', 'test@abc.com', '9456789234', '2025-08-13 10:00:56'),
+	(43, 'CMP4268', 'Test', 'samosa.png', 'eui31', 'Test', 'http://localhost/job_portal_project/super_admin/add_company.php', 'MOHANLALGANJ', 'test@abc.com', '9456789234', '2025-08-13 10:02:03');
 
 -- Dumping structure for table job_portal.company_admins
 CREATE TABLE IF NOT EXISTS `company_admins` (
@@ -116,7 +124,7 @@ CREATE TABLE IF NOT EXISTS `company_admins` (
   CONSTRAINT `company_admins_ibfk_1` FOREIGN KEY (`company_id`) REFERENCES `companies` (`company_id`) ON DELETE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=56 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- Dumping data for table job_portal.company_admins: ~18 rows (approximately)
+-- Dumping data for table job_portal.company_admins: ~17 rows (approximately)
 INSERT INTO `company_admins` (`sr_no`, `company_admin_id`, `company_id`, `name`, `email`, `password`, `created_at`) VALUES
 	(21, 'admin001', 'comp001', 'Ravi Sharma', 'ravi@technova.com', 'password123', '2025-08-05 06:43:08'),
 	(22, 'admin002', 'comp002', 'Anjali Mehta', 'anjali@medicare.com', 'password123', '2025-08-05 06:43:08'),
@@ -134,8 +142,7 @@ INSERT INTO `company_admins` (`sr_no`, `company_admin_id`, `company_id`, `name`,
 	(37, 'admin017', 'comp017', 'Ramesh Yadav', 'ramesh@freshkart.com', 'password123', '2025-08-05 06:43:08'),
 	(38, 'admin018', 'comp018', 'Sneha Iyer', 'sneha@newsx.com', 'password123', '2025-08-05 06:43:08'),
 	(39, 'admin019', 'comp019', 'Rahul Dev', 'rahul@buildmaster.com', 'password123', '2025-08-05 06:43:08'),
-	(40, 'admin020', 'comp020', 'Kriti Arora', 'kriti@farmconnect.com', 'password123', '2025-08-05 06:43:08'),
-	(55, 'ADMIN4326', 'CMP2635', 'test', 'test@test.test', 'test', '2025-08-09 08:22:46');
+	(40, 'admin020', 'comp020', 'Kriti Arora', 'kriti@farmconnect.com', 'password123', '2025-08-05 06:43:08');
 
 -- Dumping structure for table job_portal.interview_schedule
 CREATE TABLE IF NOT EXISTS `interview_schedule` (
@@ -151,9 +158,13 @@ CREATE TABLE IF NOT EXISTS `interview_schedule` (
   UNIQUE KEY `interview_id` (`interview_id`),
   KEY `application_id` (`application_id`),
   CONSTRAINT `interview_schedule_ibfk_1` FOREIGN KEY (`application_id`) REFERENCES `applications` (`application_id`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- Dumping data for table job_portal.interview_schedule: ~0 rows (approximately)
+INSERT INTO `interview_schedule` (`sr_no`, `interview_id`, `application_id`, `interview_date`, `mode`, `location_or_link`, `notes`, `created_at`) VALUES
+	(3, 'IN3693', 'AP7948', '2025-08-14 00:00:00', 'offline', 'test', 'test', '2025-08-13 16:34:02'),
+	(4, 'IN5610', 'AP1915', '2025-08-15 00:00:00', 'offline', 'Lucknow', 'Scheduled Interview', '2025-08-13 17:32:50'),
+	(5, 'IN6784', 'AP7948', '2025-08-18 00:00:00', 'online', 'googlemeet.com', 'Scheduled', '2025-08-14 04:01:09');
 
 -- Dumping structure for table job_portal.jobs
 CREATE TABLE IF NOT EXISTS `jobs` (
@@ -179,9 +190,9 @@ CREATE TABLE IF NOT EXISTS `jobs` (
   KEY `posted_by` (`posted_by`),
   CONSTRAINT `jobs_ibfk_1` FOREIGN KEY (`company_id`) REFERENCES `companies` (`company_id`) ON DELETE CASCADE,
   CONSTRAINT `jobs_ibfk_2` FOREIGN KEY (`posted_by`) REFERENCES `company_admins` (`company_admin_id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- Dumping data for table job_portal.jobs: ~12 rows (approximately)
+-- Dumping data for table job_portal.jobs: ~15 rows (approximately)
 INSERT INTO `jobs` (`sr_no`, `job_id`, `company_id`, `posted_by`, `title`, `description_title`, `description`, `skills_required`, `location`, `salary_min`, `salary_max`, `employment_type`, `experience_level`, `deadline`, `status`, `created_at`) VALUES
 	(1, 'JOB1754482245', 'comp002', 'admin002', 'Full Stack Developer', 'We are looking for a passionate full stack developer to join our team and build scalable web applications.', 'We are looking for a skilled and passionate Full Stack Web Developer to join our growing team. As a Full Stack Developer, you will be responsible for developing and maintaining both the front-end and back-end of web applications. You should be comfortable working with PHP, MySQL, HTML, CSS, and JavaScript to build secure, scalable, and responsive web solutions.', 'HTML, CSS, JavaScript, PHP, MySQL, Laravel', 'Lucknow , Uttar Pradesh', 30000.00, 80000.00, 'full-time', 'fresher', '2025-08-06', 'pending', '2025-08-06 12:10:45'),
 	(2, 'JOB1754482590', 'comp003', 'admin003', 'Frontend Developer', 'Build user-facing features with HTML, CSS, and JavaScript. Collaborate with backend developers and designers.\r\n\r\n', 'We are looking for a skilled and passionate Full Stack Web Developer to join our growing team. As a Full Stack Developer, you will be responsible for developing and maintaining both the front-end and back-end of web applications. You should be comfortable working with PHP, MySQL, HTML, CSS, and JavaScript to build secure, scalable, and responsive web solutions.', 'HTML, CSS, JavaScript, Bootstrap, React', 'Pune, Maharashtra', 25000.00, 120000.00, 'full-time', 'junior', '2025-08-03', 'pending', '2025-08-06 12:16:30'),
@@ -194,7 +205,10 @@ INSERT INTO `jobs` (`sr_no`, `job_id`, `company_id`, `posted_by`, `title`, `desc
 	(10, 'JOB1754496626', 'comp009', 'admin009', 'Battery Systems Engineer', 'Design and test battery systems for EVs.', 'We are looking for a skilled and passionate Full Stack Web Developer to join our growing team. As a Full Stack Developer, you will be responsible for developing and maintaining both the front-end and back-end of web applications. You should be comfortable working with PHP, MySQL, HTML, CSS, and JavaScript to build secure, scalable, and responsive web solutions.', ' Battery Design, BMS, Lithium-ion Technology', 'Bangalore, India', 60000.00, 90000.00, 'full-time', 'junior', '2025-06-11', 'pending', '2025-08-06 16:10:26'),
 	(11, 'JOB1754496816', 'comp009', 'admin009', 'Production Supervisor – Automotive Plant', 'Supervise production line and ensure process efficiency', 'We are looking for a skilled and passionate Full Stack Web Developer to join our growing team. As a Full Stack Developer, you will be responsible for developing and maintaining both the front-end and back-end of web applications. You should be comfortable working with PHP, MySQL, HTML, CSS, and JavaScript to build secure, scalable, and responsive web solutions.', ' Shift Handling, Lean Manufacturing, Quality Control', 'Gurugram, India', 20000.00, 60000.00, 'full-time', 'junior', '2025-08-04', 'pending', '2025-08-06 16:13:36'),
 	(12, 'JOB1754496836', 'comp009', 'admin009', 'Automotive Quality Assurance Engineer', 'Ensure quality standards in vehicle parts and assembly lines.', 'We are looking for a skilled and passionate Full Stack Web Developer to join our growing team. As a Full Stack Developer, you will be responsible for developing and maintaining both the front-end and back-end of web applications. You should be comfortable working with PHP, MySQL, HTML, CSS, and JavaScript to build secure, scalable, and responsive web solutions.', ' ISO/TS 16949, Quality Audits, Root Cause Analysis', 'Kolkata, India', 40000.00, 80000.00, 'full-time', 'junior', '2025-08-09', 'pending', '2025-08-06 16:13:56'),
-	(13, 'JOB1754622993', 'comp002', 'admin002', 'Software Engineer – Full Stack Developer', 'We are looking for a skilled Full Stack Software Engineer to develop and maintain web applications using React, Node.js, and MongoDB.', 'We are looking for a skilled and passionate Full Stack Web Developer to join our growing team. As a Full Stack Developer, you will be responsible for developing and maintaining both the front-end and back-end of web applications. You should be comfortable working with PHP, MySQL, HTML, CSS, and JavaScript to build secure, scalable, and responsive web solutions.', 'HTML, CSS, JavaScript, React.js, Node.js, REST APIs, MongoDB, MySQL', 'Hyderabaad, India', 28000.00, 90000.00, 'full-time', 'mid', '2025-08-07', 'pending', '2025-08-08 03:16:33');
+	(13, 'JOB1754622993', 'comp002', 'admin002', 'Software Engineer – Full Stack Developer', 'We are looking for a skilled Full Stack Software Engineer to develop and maintain web applications using React, Node.js, and MongoDB.', 'We are looking for a skilled and passionate Full Stack Web Developer to join our growing team. As a Full Stack Developer, you will be responsible for developing and maintaining both the front-end and back-end of web applications. You should be comfortable working with PHP, MySQL, HTML, CSS, and JavaScript to build secure, scalable, and responsive web solutions.', 'HTML, CSS, JavaScript, React.js, Node.js, REST APIs, MongoDB, MySQL', 'Hyderabaad, India', 28000.00, 90000.00, 'full-time', 'mid', '2025-08-07', 'pending', '2025-08-08 03:16:33'),
+	(17, 'JOB8673', 'comp011', 'admin011', 'Software Engineer – Freshers', 'Entry-level role for fresh graduates in software development', 'We are looking for enthusiastic software engineers to join our dynamic team at TCS. You will work on modern web technologies, collaborate with cross-functional teams, and participate in coding, testing, and deployment', 'Java, MySQL, HTML/CSS, Problem Solving', 'Mumbai, India', 34000.00, 400000.00, 'full-time', 'senior', '2025-08-04', 'pending', '2025-08-10 15:18:19'),
+	(18, 'JOB4173', 'comp011', 'admin011', 'Senior Frontend Developer', 'Build modern, responsive web applications.', 'SkyNet seeks an experienced frontend developer skilled in React, JavaScript, and UI/UX design principles. You will lead UI projects, mentor juniors, and work with backend teams to deliver scalable applications.', 'React, JavaScript, Tailwind CSS, REST APIs', 'Bangalore, India', 25000.00, 120000.00, 'full-time', 'junior', '2025-08-06', 'pending', '2025-08-10 15:21:04'),
+	(19, 'JOB8087', 'comp011', 'admin011', 'Cloud Solutions Architect', 'Design and deploy secure, scalable cloud systems.', 'SkyNet hiring a Cloud Solutions Architect to create cloud migration strategies, manage deployment pipelines, and ensure system reliability using AWS, Azure, or GCP.', 'AWS, Azure, GCP, DevOps, Kubernetes', 'Hyderabad, India', 40000.00, 320000.00, 'full-time', 'junior', '2025-08-13', 'pending', '2025-08-10 15:23:02');
 
 -- Dumping structure for table job_portal.jobseekers
 CREATE TABLE IF NOT EXISTS `jobseekers` (
@@ -212,21 +226,22 @@ CREATE TABLE IF NOT EXISTS `jobseekers` (
   `skills` text,
   `experience_level` enum('fresher','junior','mid','senior') DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `bio` text,
   PRIMARY KEY (`sr_no`),
   UNIQUE KEY `jobseeker_id` (`jobseeker_id`),
   UNIQUE KEY `email` (`email`)
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- Dumping data for table job_portal.jobseekers: ~8 rows (approximately)
-INSERT INTO `jobseekers` (`sr_no`, `jobseeker_id`, `name`, `email`, `password`, `phone`, `resume`, `specialization`, `course`, `education`, `role`, `skills`, `experience_level`, `created_at`) VALUES
-	(1, 'JS7808', 'Nishant', 'nk@gmail.com', '123456', '9456789246', NULL, 'Computer Science Engineering', 'PhD - Engineering', 'Masters/Post Graduation', NULL, NULL, 'fresher', '2025-08-07 10:02:33'),
-	(2, 'JS5602', 'Prashant', 'prashant@gmail.com', '123456', '9693625867', '../uploads/resumes/JS5602_1754566829.pdf', 'Computer Science', 'BCA', 'Graduation/Diploma', 'Web designer', 'Abc', 'fresher', '2025-08-07 10:05:14'),
-	(9, 'JS7222', 'prashant', 'pk@abc.com', '123456', '9456789244', '../uploads/resumes/1754657699_prashant kumar.pdf', 'Computer Science Engineering', 'BCA', 'Doctorate/PHD', 'Software Developer', 'HTML, CSS, JavaScript, Python, Java, MongoDB,C', 'fresher', '2025-08-07 10:44:41'),
-	(10, 'JS6514', 'Rohan Kumar', 'rohan@gmail.com', '123456', '9456789267', NULL, NULL, NULL, NULL, NULL, NULL, 'fresher', '2025-08-07 12:40:02'),
-	(11, 'JS8034', 'Chandan', 'chandan@gmail.com', '123456', '9693625834', '../uploads/resumes/JS8034_1754571869.pdf', 'Computer Science and Engineering', 'B.Tech', 'Masters/Post Graduation', 'Frontend Developer', 'HTML, CSS, JavaScript, PHP, MySQL', 'fresher', '2025-08-07 13:03:27'),
-	(12, 'JS6027', 'Harsh', 'harsh+2@gmail.com', '123456', '9876543211', '../uploads/resumes/JS6027_1754576746.pdf', 'Computer Science Engineering', 'B.Tech', 'Graduation/Diploma', 'Software Developer', 'java , python', 'junior', '2025-08-07 14:25:23'),
-	(13, 'JS8642', 'Prashant Bhardwaj', 'prashantkumarbgs22@gmail.com', '123456', '9998936490', '../uploads/resumes/JS8642_1754585071.pdf', 'Computer Science Engineering', 'B.Tech', 'Graduation/Diploma', 'Full Stack Developer', 'HTML, CSS, JavaScript, PHP, MySQL', 'junior', '2025-08-07 16:42:44'),
-	(14, 'JS5237', 'Prashant Bhardwaj', 'bhardwaj@gmail.com', '123456', '9693625814', '../uploads/resumes/JS5237_1754638559.pdf', 'Computer Science and Engineering', 'B.Tech', 'Graduation/Diploma', 'Full Stack Developer', 'HTML, CSS, JavaScript, PHP, MySQL', 'junior', '2025-08-08 07:35:08');
+-- Dumping data for table job_portal.jobseekers: ~9 rows (approximately)
+INSERT INTO `jobseekers` (`sr_no`, `jobseeker_id`, `name`, `email`, `password`, `phone`, `resume`, `specialization`, `course`, `education`, `role`, `skills`, `experience_level`, `created_at`, `bio`) VALUES
+	(1, 'JS7808', 'Nishant', 'nk@gmail.com', '123456', '9456789246', NULL, 'Computer Science Engineering', 'PhD - Engineering', 'Masters/Post Graduation', NULL, NULL, 'fresher', '2025-08-07 10:02:33', 'Developing software, solving problems, and learning every day'),
+	(2, 'JS5602', 'Prashant', 'prashant@gmail.com', '123456', '9693625867', '../uploads/resumes/JS5602_1754566829.pdf', 'Computer Science', 'BCA', 'Graduation/Diploma', 'Web designer', 'Abc', 'fresher', '2025-08-07 10:05:14', 'Developing software, solving problems, and learning every day'),
+	(9, 'JS7222', 'prashant', 'pk@abc.com', '123456', '9456789244', '../uploads/resumes/1754657699_prashant kumar.pdf', 'Computer Science Engineering', 'BCA', 'Doctorate/PHD', 'Software Developer', 'HTML, CSS, JavaScript, Python, Java, MongoDB,C', 'fresher', '2025-08-07 10:44:41', 'Developing software, solving problems, and learning every day'),
+	(11, 'JS8034', 'Chandan', 'chandan@gmail.com', '123456', '9693625834', '../uploads/resumes/JS8034_1754571869.pdf', 'Computer Science and Engineering', 'B.Tech', 'Masters/Post Graduation', 'Frontend Developer', 'HTML, CSS, JavaScript, PHP, MySQL', 'fresher', '2025-08-07 13:03:27', 'Developing software, solving problems, and learning every day'),
+	(12, 'JS6027', 'Harsh', 'harsh+2@gmail.com', '123456', '9876543211', '../uploads/resumes/JS6027_1754576746.pdf', 'Computer Science Engineering', 'B.Tech', 'Graduation/Diploma', 'Software Developer', 'java , python', 'junior', '2025-08-07 14:25:23', 'Developing software, solving problems, and learning every day'),
+	(13, 'JS8642', 'Prashant Bhardwaj', 'prashantkumarbgs22@gmail.com', '123456', '9998936490', '../uploads/resumes/JS8642_1754585071.pdf', 'Computer Science Engineering', 'B.Tech', 'Graduation/Diploma', 'Full Stack Developer', 'HTML, CSS, JavaScript, PHP, MySQL', 'junior', '2025-08-07 16:42:44', 'Developing software, solving problems, and learning every day'),
+	(14, 'JS5237', 'Prashant Bhardwaj', 'bhardwaj@gmail.com', '123456', '9693625814', '../uploads/resumes/JS5237_1754638559.pdf', 'Computer Science and Engineering', 'B.Tech', 'Graduation/Diploma', 'Full Stack Developer', 'HTML, CSS, JavaScript, PHP, MySQL', 'junior', '2025-08-08 07:35:08', 'Developing software, solving problems, and learning every day'),
+	(15, 'JS8544', 'Ravi Kumar', 'ravi@gmail.com', '123456', '9693625767', '../uploads/resumes/JS8544_1754754709.pdf', 'Computer Science Engineering', 'B.Tech', 'Graduation/Diploma', 'Software Developer', 'HTML, CSS, JavaScript Telwind, PHP, MySQL', 'mid', '2025-08-09 15:19:33', 'Developing software, solving problems, and learning every day');
 
 -- Dumping structure for table job_portal.saved_jobs
 CREATE TABLE IF NOT EXISTS `saved_jobs` (
@@ -241,9 +256,14 @@ CREATE TABLE IF NOT EXISTS `saved_jobs` (
   KEY `job_id` (`job_id`),
   CONSTRAINT `saved_jobs_ibfk_1` FOREIGN KEY (`jobseeker_id`) REFERENCES `jobseekers` (`jobseeker_id`) ON DELETE CASCADE,
   CONSTRAINT `saved_jobs_ibfk_2` FOREIGN KEY (`job_id`) REFERENCES `jobs` (`job_id`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- Dumping data for table job_portal.saved_jobs: ~0 rows (approximately)
+-- Dumping data for table job_portal.saved_jobs: ~3 rows (approximately)
+INSERT INTO `saved_jobs` (`sr_no`, `saved_job_id`, `jobseeker_id`, `job_id`, `saved_at`) VALUES
+	(14, 'SV1480', 'JS5237', 'JOB1754496816', '2025-08-10 07:30:53'),
+	(15, 'SV9449', 'JS5237', 'JOB1754496626', '2025-08-10 07:30:56'),
+	(16, 'SV7001', 'JS5237', 'JOB1754496529', '2025-08-10 07:31:00'),
+	(17, 'SV3746', 'JS5237', 'JOB8673', '2025-08-10 16:23:00');
 
 -- Dumping structure for table job_portal.superadmins
 CREATE TABLE IF NOT EXISTS `superadmins` (
@@ -258,7 +278,7 @@ CREATE TABLE IF NOT EXISTS `superadmins` (
   UNIQUE KEY `email` (`email`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- Dumping data for table job_portal.superadmins: ~1 rows (approximately)
+-- Dumping data for table job_portal.superadmins: ~0 rows (approximately)
 INSERT INTO `superadmins` (`sr_no`, `superadmin_id`, `name`, `email`, `password`, `created_at`) VALUES
 	(1, 'SA1001', 'Prashant', 'admin@gmail.com', 'admin123', '2025-08-05 03:54:25');
 

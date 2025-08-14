@@ -51,6 +51,9 @@
               <a href="profile.php" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">
                 <i class="fas fa-user mr-2"></i> Profile
               </a>
+              <a href="applied_jobs.php" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">
+                <i class="fas fa-briefcase mr-2"></i> Applied Jobs
+              </a>
               <a href="logout.php" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">
                 <i class="fas fa-sign-out-alt mr-2"></i> Logout
               </a>
@@ -102,7 +105,9 @@
                 class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 h-10">
               <!-- Suggestion dropdown -->
               <div id="suggestion-box"
-                class="absolute bg-black border border-gray-300 rounded-lg mt-1 w-full hidden z-10"></div>
+                class="absolute bg-white border border-gray-200 rounded-lg mt-1 w-full hidden z-10 shadow-md max-h-60 overflow-y-auto">
+              </div>
+
             </div>
           </div>
 

@@ -54,7 +54,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   <!-- Top Login -->
   <div class="w-full flex justify-end items-center px-6 py-4 text-sm">
     <span>Already Registered?</span>
-    <a href="login.php" class="text-blue-600 font-medium ml-2 hover:underline">Login here</a>
+    <a href="login.php" class="text-blue-600 fodnt-medium ml-2 hover:underline">Login here</a>
   </div>
 
   <div class="min-h-screen flex items-center justify-center px-4 py-6">
