@@ -3,8 +3,8 @@ include '../inc/db.php';
 
 if (isset($_POST['query'])) {
     $query = mysqli_real_escape_string($conn, $_POST['query']);
-    $sql = "SELECT DISTINCT title, location FROM jobs 
-            WHERE (title LIKE '%$query%' OR location LIKE '%$query%') 
+    $sql = "SELECT DISTINCT title FROM jobs 
+            WHERE title LIKE '%$query%' 
             LIMIT 5";
     $result = mysqli_query($conn, $sql);
 

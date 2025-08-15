@@ -64,31 +64,41 @@ $result = $conn->query($sql);
         <div class="bg-white shadow rounded overflow-hidden">
             <div class="overflow-x-auto">
                 <table class="min-w-full table-auto border border-gray-200 text-sm sm:text-base">
-                    <thead class="bg-gray-200">
-                        <tr>
-                            <th class="px-4 py-2 border text-left">ID</th>
-                            <th class="px-4 py-2 border text-left">Admin Name</th>
-                            <th class="px-4 py-2 border text-left">Company Name</th>
-                            <th class="px-4 py-2 border text-center">Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php while ($row = $result->fetch_assoc()): ?>
-                            <tr class="hover:bg-gray-100">
-                                <td class="px-4 py-2 border"><?php echo $row['company_admin_id']; ?></td>
-                                <td class="px-4 py-2 border"><?php echo htmlspecialchars($row['admin_name']); ?></td>
-                                <td class="px-4 py-2 border">
-                                    <?php echo htmlspecialchars($row['company_name'] ?? 'No Company'); ?></td>
-                                <td class="px-4 py-2 border text-center">
-                                    <a href="?delete_id=<?php echo $row['company_admin_id']; ?>"
-                                        class="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600 transition"
-                                        onclick="return confirm('Are you sure you want to delete this company admin and its company?');">
-                                        Delete
-                                    </a>
-                                </td>
-                            </tr>
-                        <?php endwhile; ?>
-                    </tbody>
+                   <thead class="bg-gray-200">
+                     <tr>
+                       <th class="px-4 py-2 border text-left">ID</th>
+                       <th class="px-4 py-2 border text-left">Admin Name</th>
+                       <th class="px-4 py-2 border text-left">Company Name</th>
+                       <th class="px-4 py-2 border text-center">Post Job</th> <!-- New Column -->
+                       <th class="px-4 py-2 border text-center">Action</th>
+                     </tr>
+                   </thead>
+                   <tbody>
+                      <?php while ($row = $result->fetch_assoc()): ?>
+                       <tr class="hover:bg-gray-100">
+                         <td class="px-4 py-2 border"><?php echo $row['company_admin_id']; ?></td>
+                         <td class="px-4 py-2 border"><?php echo htmlspecialchars($row['admin_name']); ?></td>
+                         <td class="px-4 py-2 border"><?php echo htmlspecialchars($row['company_name'] ?? 'No Company'); ?></td>
+            
+                         <!-- New Post Job Button -->
+                         <td class="px-4 py-2 border text-center">
+                            <a href="admin_post_job.php?admin_id=<?= urlencode($row['company_admin_id']); ?>" 
+                              class="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600 transition">
+                               Post Job
+                            </a>
+                         </td>
+
+                         <td class="px-4 py-2 border text-center">
+                            <a href="?delete_id=<?php echo $row['company_admin_id']; ?>"
+                             class="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600 transition"
+                              onclick="return confirm('Are you sure you want to delete this company admin and its company?');">
+                                Delete
+                            </a>
+                         </td>
+                       </tr>
+                   <?php endwhile; ?>
+                 </tbody>
+
                 </table>
             </div>
         </div>

@@ -20,11 +20,16 @@ if (!isset($_SESSION['superadmin_id'])) {
 <!-- Header -->
 <header class="bg-gradient-to-r from-blue-700 to-indigo-700 text-white shadow-md">
     <div class="max-w-7xl mx-auto px-4 py-4 flex flex-col sm:flex-row justify-between items-center">
-        <!-- Left: Title -->
-        <div class="text-center sm:text-left">
-            <h1 class="text-3xl font-extrabold tracking-wide">Superadmin Dashboard</h1>
-            <p class="text-sm text-blue-200 mt-1">Manage everything at a glance</p>
+        <!-- Left: Title with Home -->
+        <div class="text-center sm:text-left flex items-center gap-2">
+           <a href="dashboard.php" class="text-white text-2xl hover:text-yellow-300 transition" title="Home">🏠</a>
+           <div>
+           <h1 class="text-3xl font-extrabold tracking-wide">Superadmin Dashboard</h1>
+           <p class="text-sm text-blue-200 mt-1">Manage everything at a glance</p>
+           </div>
         </div>
+
+        
 
         <!-- Right: Welcome & Logout -->
         <div class="mt-4 sm:mt-0 flex flex-col sm:flex-row items-center gap-3 text-sm">

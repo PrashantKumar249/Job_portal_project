@@ -46,7 +46,7 @@ $result = mysqli_query($conn, $query);
                         class="flex-1 text-center bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg font-medium transition">
                         View Profile
                     </a>
-                    <a href="../uploads/resumes/<?php echo $row['resume']; ?>" target="_blank"
+                    <a href="../resumes/<?php echo $row['resume']; ?>" target="_blank"
                         class="flex-1 text-center bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg font-medium transition">
                         View Resume
                     </a>

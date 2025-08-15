@@ -33,6 +33,7 @@ $result = $conn->query($sql);
                     <th class="px-4 py-3 border">Industry</th>
                     <th class="px-4 py-3 border">Email</th>
                     <th class="px-4 py-3 border">Created At</th>
+                    <th class="px-4 py-3 border">View All Jobs</th>
                     <th class="px-4 py-3 border">Actions</th>
                 </tr>
             </thead>
@@ -44,14 +45,23 @@ $result = $conn->query($sql);
                     <td class="px-4 py-2 border"><?= htmlspecialchars($row['industry']); ?></td>
                     <td class="px-4 py-2 border"><?= htmlspecialchars($row['contact_email']); ?></td>
                     <td class="px-4 py-2 border"><?= $row['created_at']; ?></td>
+                    <td class="px-4 py-2 border text-center">
+                        <a href="view_all_jobs.php?company_id=<?= $row['company_id']; ?>" 
+                           class="bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700 transition">
+                           View Jobs
+                        </a>
+                    </td>
                     <td class="px-4 py-2 border whitespace-nowrap">
-                        <!-- <a href="edit_company.php?id=<?= $row['company_id']; ?>" class="text-blue-600 hover:underline mr-3">Edit</a> -->
-                        <a href="delete_company.php?id=<?= $row['company_id']; ?>" class="text-red-600 hover:underline" onclick="return confirm('Are you sure you want to delete this company?')">Delete</a>
+                        <a href="delete_company.php?id=<?= $row['company_id']; ?>" 
+                           class="text-red-600 hover:underline" 
+                           onclick="return confirm('Are you sure you want to delete this company?')">
+                           Delete
+                        </a>
                     </td>
                 </tr>
                 <?php endwhile; else: ?>
                 <tr>
-                    <td colspan="6" class="px-4 py-6 text-center text-gray-500">No companies found.</td>
+                    <td colspan="7" class="px-4 py-6 text-center text-gray-500">No companies found.</td>
                 </tr>
                 <?php endif; ?>
             </tbody>

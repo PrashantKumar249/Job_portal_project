@@ -16,7 +16,7 @@ if (!empty($_POST['job_id']) && !empty($_POST['jobseeker_id']) && !empty($_POST[
     $status = trim($_POST['status']);
 
     // Allowed statuses for safety
-    $allowed_statuses = ['shortlisted', 'interview', 'hired', 'rejected'];
+    $allowed_statuses = ['pending','shortlisted', 'interview', 'hired', 'rejected'];
     if (!in_array($status, $allowed_statuses)) {
         echo "Invalid status.";
         exit();

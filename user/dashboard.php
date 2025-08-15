@@ -4,6 +4,7 @@ if (!isset($_SESSION['jobseeker_id'])) {
   header("Location: login.php");
   exit();
 }
+$jobseeker_id = $_SESSION["jobseeker_id"];
 
 require_once '../inc/db.php';
 
@@ -16,13 +17,6 @@ $sql_top_companies = "
     ORDER BY total_jobs DESC
     LIMIT 5";
 $result_top_companies = mysqli_query($conn, $sql_top_companies);
-// $row = mysqli_fetch_array($result);
-// <!--while ($row = mysqli_fetch_array($result)) {
-//   echo $row['name'];
-// }
-
-
-
 
 // Define job categories with keywords
 $categories = [
@@ -33,14 +27,55 @@ $categories = [
   'Human Resources' => ['%hr%', '%recruitment%', '%talent%', '%employee%'],
 ];
 
-// Fetch recommended jobs (with company names)
-$recommendedQuery = "
-  SELECT jobs.*, companies.name AS company_name, companies.logo AS company_logo
-  FROM jobs 
-  INNER JOIN companies ON jobs.company_id = companies.company_id 
-  ORDER BY job_id DESC 
-  LIMIT 10";
-$recommendedResult = mysqli_query($conn, $recommendedQuery);
+
+// Fetch user's role securely
+// Get user's role(s)
+$user_role_explode = [];
+$user_role_stmt = $conn->prepare("SELECT role FROM jobseekers WHERE jobseeker_id = ?");
+$user_role_stmt->bind_param("s", $jobseeker_id);
+$user_role_stmt->execute();
+$user_role_stmt->bind_result($user_role);
+if ($user_role_stmt->fetch()) {
+  $user_role_explode = explode(' ', $user_role);
+}
+$user_role_stmt->close();
+
+// Build dynamic WHERE conditions for each role word
+$conditions = [];
+$params = [];
+$types = '';
+
+foreach ($user_role_explode as $role_word) {
+  $conditions[] = "j.title LIKE ?";
+  $params[] = "%" . $role_word . "%";
+  $types .= 's';
+}
+
+// If no roles found, match everything
+if (empty($conditions)) {
+  $conditions[] = "1"; // Always true
+}
+
+// Final SQL
+$sql = "
+    SELECT j.*, c.name AS company_name, c.logo AS company_logo
+    FROM jobs j
+    INNER JOIN companies c ON j.company_id = c.company_id
+    WHERE " . implode(" OR ", $conditions) . "
+    ORDER BY j.job_id DESC
+    LIMIT 10
+";
+
+$recommended_stmt = $conn->prepare($sql);
+
+// Bind only if we have role words
+if (!empty($params)) {
+  $recommended_stmt->bind_param($types, ...$params);
+}
+
+$recommended_stmt->execute();
+$recommendedResult = $recommended_stmt->get_result();
+
 
 // Get job counts for each category
 $categoryCounts = [];
@@ -75,74 +110,83 @@ include('include/header.php');
   <div class="flex flex-col lg:flex-row gap-8">
     <!-- Sidebar Filters -->
     <aside class="lg:w-1/4">
-  <form id="filterForm" class="bg-white rounded-lg shadow-md p-6 sticky top-24">
-    <h3 class="text-lg font-semibold mb-4">Filter Jobs</h3>
+      <form id="filterForm" class="bg-white rounded-lg shadow-md p-6 sticky top-24">
+        <h3 class="text-lg font-semibold mb-4">Filter Jobs</h3>
 
-    <!-- Job Type -->
-    <div class="mb-6">
-      <h4 class="font-medium mb-3">Job Type</h4>
-      <div class="space-y-2">
-        <label class="flex items-center">
-          <input type="checkbox" name="job_type[]" value="internship" class="rounded border-gray-300 text-blue-600 focus:ring-blue-500">
-          <span class="ml-2 text-sm">Internship</span>
-        </label>
-        <label class="flex items-center">
-          <input type="checkbox" name="job_type[]" value="part-time" class="rounded border-gray-300 text-blue-600 focus:ring-blue-500">
-          <span class="ml-2 text-sm">Part-time</span>
-        </label>
-        <label class="flex items-center">
-          <input type="checkbox" name="job_type[]" value="full-time" class="rounded border-gray-300 text-blue-600 focus:ring-blue-500">
-          <span class="ml-2 text-sm">Full-time</span>
-        </label>
-        <label class="flex items-center">
-          <input type="checkbox" name="job_type[]" value="contract" class="rounded border-gray-300 text-blue-600 focus:ring-blue-500">
-          <span class="ml-2 text-sm">Contract</span>
-        </label>
-      </div>
-    </div>
+        <!-- Job Type -->
+        <div class="mb-6">
+          <h4 class="font-medium mb-3">Job Type</h4>
+          <div class="space-y-2">
+            <label class="flex items-center">
+              <input type="checkbox" name="job_type[]" value="internship"
+                class="rounded border-gray-300 text-blue-600 focus:ring-blue-500">
+              <span class="ml-2 text-sm">Internship</span>
+            </label>
+            <label class="flex items-center">
+              <input type="checkbox" name="job_type[]" value="part-time"
+                class="rounded border-gray-300 text-blue-600 focus:ring-blue-500">
+              <span class="ml-2 text-sm">Part-time</span>
+            </label>
+            <label class="flex items-center">
+              <input type="checkbox" name="job_type[]" value="full-time"
+                class="rounded border-gray-300 text-blue-600 focus:ring-blue-500">
+              <span class="ml-2 text-sm">Full-time</span>
+            </label>
+            <label class="flex items-center">
+              <input type="checkbox" name="job_type[]" value="contract"
+                class="rounded border-gray-300 text-blue-600 focus:ring-blue-500">
+              <span class="ml-2 text-sm">Contract</span>
+            </label>
+          </div>
+        </div>
 
-    <!-- Experience Level -->
-    <div class="mb-6">
-      <h4 class="font-medium mb-3">Experience Level</h4>
-      <div class="space-y-2">
-        <label class="flex items-center">
-          <input type="checkbox" name="experience_level[]" value="fresher" class="rounded border-gray-300 text-blue-600 focus:ring-blue-500">
-          <span class="ml-2 text-sm">Fresher</span>
-        </label>
-        <label class="flex items-center">
-          <input type="checkbox" name="experience_level[]" value="junior" class="rounded border-gray-300 text-blue-600 focus:ring-blue-500">
-          <span class="ml-2 text-sm">Junior</span>
-        </label>
-        <label class="flex items-center">
-          <input type="checkbox" name="experience_level[]" value="mid" class="rounded border-gray-300 text-blue-600 focus:ring-blue-500">
-          <span class="ml-2 text-sm">Mid</span>
-        </label>
-        <label class="flex items-center">
-          <input type="checkbox" name="experience_level[]" value="senior" class="rounded border-gray-300 text-blue-600 focus:ring-blue-500">
-          <span class="ml-2 text-sm">Senior</span>
-        </label>
-      </div>
-    </div>
+        <!-- Experience Level -->
+        <div class="mb-6">
+          <h4 class="font-medium mb-3">Experience Level</h4>
+          <div class="space-y-2">
+            <label class="flex items-center">
+              <input type="checkbox" name="experience_level[]" value="fresher"
+                class="rounded border-gray-300 text-blue-600 focus:ring-blue-500">
+              <span class="ml-2 text-sm">Fresher</span>
+            </label>
+            <label class="flex items-center">
+              <input type="checkbox" name="experience_level[]" value="junior"
+                class="rounded border-gray-300 text-blue-600 focus:ring-blue-500">
+              <span class="ml-2 text-sm">Junior</span>
+            </label>
+            <label class="flex items-center">
+              <input type="checkbox" name="experience_level[]" value="mid"
+                class="rounded border-gray-300 text-blue-600 focus:ring-blue-500">
+              <span class="ml-2 text-sm">Mid</span>
+            </label>
+            <label class="flex items-center">
+              <input type="checkbox" name="experience_level[]" value="senior"
+                class="rounded border-gray-300 text-blue-600 focus:ring-blue-500">
+              <span class="ml-2 text-sm">Senior</span>
+            </label>
+          </div>
+        </div>
 
-    <!-- Salary Range -->
-    <div class="mb-6">
-      <h4 class="font-medium mb-3">Salary Range</h4>
-      <select id="salary_range" name="salary_range"
-  class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
-  <option value="">Any Salary</option>
-  <option value="30000-50000">$30k - $50k</option>
-  <option value="50000-75000">$50k - $75k</option>
-  <option value="75000-100000">$75k - $100k</option>
-  <option value="100000-9999999">$100k+</option>
-</select>
+        <!-- Salary Range -->
+        <div class="mb-6">
+          <h4 class="font-medium mb-3">Salary Range</h4>
+          <select id="salary_range" name="salary_range"
+            class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
+            <option value="">Any Salary</option>
+            <option value="30000-50000">$30k - $50k</option>
+            <option value="50000-75000">$50k - $75k</option>
+            <option value="75000-100000">$75k - $100k</option>
+            <option value="100000-9999999">$100k+</option>
+          </select>
 
-    </div>
+        </div>
 
-    <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 rounded-lg font-semibold transition duration-200">
-      Apply Filters
-    </button>
-  </form>
-</aside>
+        <button type="submit"
+          class="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 rounded-lg font-semibold transition duration-200">
+          Apply Filters
+        </button>
+      </form>
+    </aside>
 
 
 
@@ -163,7 +207,7 @@ include('include/header.php');
         </div>
       </section>
 
-<div id="job-results"></div>
+      <div id="job-results"></div>
 
       <!-- Recommended Jobs -->
       <section class="mb-8">
@@ -281,44 +325,44 @@ include('include/header.php');
   </div>
 </div>
 
-<?php include 'include/footer.php'; ?> 
+<?php include 'include/footer.php'; ?>
 
 <script>
-function loadJobs() {
+  function loadJobs() {
     var jobType = [];
-    $('input[name="job_type[]"]:checked').each(function() {
-        jobType.push($(this).val());
+    $('input[name="job_type[]"]:checked').each(function () {
+      jobType.push($(this).val());
     });
 
     var experienceLevel = [];
-    $('input[name="experience_level[]"]:checked').each(function() {
-        experienceLevel.push($(this).val());
+    $('input[name="experience_level[]"]:checked').each(function () {
+      experienceLevel.push($(this).val());
     });
 
     var salaryRange = $('#salary_range').val();
     console.log(salaryRange);
 
     $.ajax({
-        url: "filter_job.php",
-        type: "POST",
-        data: {
-            job_type: jobType,
-            experience_level: experienceLevel,
-            salary_range: salaryRange
-        },
-        success: function(data) {
-            $('#job-results').html(data);
-        }
+      url: "filter_job.php",
+      type: "POST",
+      data: {
+        job_type: jobType,
+        experience_level: experienceLevel,
+        salary_range: salaryRange
+      },
+      success: function (data) {
+        $('#job-results').html(data);
+      }
     });
-}
+  }
 
-// Load jobs on page load
-$(document).ready(function() {
+  // Load jobs on page load
+  $(document).ready(function () {
     loadJobs();
 
     // Reload when filters change
-    $('input[name="job_type[]"], input[name="experience_level[]"], #salary_range').on('change', function() {
-        loadJobs();
+    $('input[name="job_type[]"], input[name="experience_level[]"], #salary_range').on('change', function () {
+      loadJobs();
     });
-});
+  });
 </script>
