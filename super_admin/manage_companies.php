@@ -45,7 +45,7 @@ $result = $conn->query($sql);
                     <td class="px-4 py-2 border"><?= htmlspecialchars($row['contact_email']); ?></td>
                     <td class="px-4 py-2 border"><?= $row['created_at']; ?></td>
                     <td class="px-4 py-2 border whitespace-nowrap">
-                        <a href="edit_company.php?id=<?= $row['company_id']; ?>" class="text-blue-600 hover:underline mr-3">Edit</a>
+                        <!-- <a href="edit_company.php?id=<?= $row['company_id']; ?>" class="text-blue-600 hover:underline mr-3">Edit</a> -->
                         <a href="delete_company.php?id=<?= $row['company_id']; ?>" class="text-red-600 hover:underline" onclick="return confirm('Are you sure you want to delete this company?')">Delete</a>
                     </td>
                 </tr>
