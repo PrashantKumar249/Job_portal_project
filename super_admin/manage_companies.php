@@ -47,8 +47,10 @@ $result = $conn->query($sql);
                     <td class="px-4 py-2 border"><?= $row['created_at']; ?></td>
                     <td class="px-4 py-2 border text-center">
                         <a href="view_all_jobs.php?company_id=<?= $row['company_id']; ?>" 
-                           class="bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700 transition">
-                           View Jobs
+                            class="bg-blue-600 text-white px-3 py-1 text-sm rounded 
+                                  hover:bg-blue-700 transition 
+                                  sm:px-4 sm:py-2 sm:text-base block text-center">
+                            View Jobs
                         </a>
                     </td>
                     <td class="px-4 py-2 border whitespace-nowrap">

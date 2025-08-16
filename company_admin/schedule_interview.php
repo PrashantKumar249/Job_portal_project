@@ -114,6 +114,12 @@ $result = $conn->query($sql);
             </tbody>
         </table>
     </div>
+    <div class="mt-10 text-center">
+        <a href="dashboard.php"
+            class="inline-block bg-gray-200 hover:bg-gray-300 text-gray-800 text-sm font-medium px-4 py-2 rounded transition">
+            🔙 Back to Dashboard
+        </a>
+    </div>
 </div>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>

@@ -46,7 +46,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Handle logo upload
     if (!empty($_FILES['company_logo']['name'])) {
         $logo_name = time() . '_' . basename($_FILES['company_logo']['name']);
-        $target_path = "../Uploads/company_logos/" . $logo_name;
+        $target_path = "../Uploads/company_logo/" . $logo_name;
         move_uploaded_file($_FILES['company_logo']['tmp_name'], $target_path);
     } else {
         $logo_name = $company['logo']; // Keep existing logo
@@ -86,7 +86,7 @@ $conn->close();
                 <div>
                     <label class="block text-sm font-medium text-green-700 mb-2">Company Logo</label>
                     <?php if (!empty($company['logo'])): ?>
-                        <img src="../Uploads/company_logos/<?php echo htmlspecialchars($company['logo']); ?>" class="w-20 h-20 rounded-full mb-3">
+                        <img src="../Uploads/company_logo/<?php echo htmlspecialchars($company['logo']); ?>" class="w-20 h-20 rounded-full mb-3">
                     <?php endif; ?>
                     <input type="file" name="company_logo" class="block w-full border border-green-300 rounded-lg p-2">
                 </div>

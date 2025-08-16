@@ -18,40 +18,43 @@ $result = mysqli_query($conn, $query);
     <!-- Responsive Grid -->
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         <?php while ($row = mysqli_fetch_assoc($result)) { ?>
-            <div class="bg-white shadow-lg rounded-xl p-6 hover:shadow-2xl transition duration-300 flex flex-col">
-                <div class="flex items-center space-x-4">
-                    <img src="<?php echo !empty($row['profile_pic']) ? '../uploads/profile/' . $row['profile_pic'] : 'https://via.placeholder.com/80'; ?>"
-                        alt="Profile Picture" class="w-20 h-20 rounded-full border-2 border-blue-500 object-cover">
-                    <div>
-                        <h2 class="text-lg font-semibold text-gray-800"><?php echo htmlspecialchars($row['name']); ?></h2>
-                        <p class="text-sm text-gray-500"><?php echo htmlspecialchars($row['email']); ?></p>
-                        <p class="text-sm text-gray-500"><?php echo htmlspecialchars($row['phone']); ?></p>
-                    </div>
+            <div class="bg-white shadow rounded-lg overflow-hidden">
+                <!-- Header -->
+                <div class="bg-blue-600 px-4 py-3">
+                    <h2 class="text-lg font-bold text-white truncate">
+                        <?= htmlspecialchars($row['name']); ?>
+                    </h2>
+                    <p class="text-blue-100 text-sm"><?= htmlspecialchars($row['role'] ?? 'Jobseeker'); ?></p>
                 </div>
 
-                <div class="mt-4 flex-grow">
-                    <p class="text-gray-700 text-sm">
-                        <span class="font-medium">Skills:</span>
-                        <?php echo htmlspecialchars($row['skills'] ?? ''); ?>
-                    </p>
-                    <p class="text-gray-700 text-sm mt-1">
-                        <span class="font-medium text-blue-600">Role:</span>
-                        <?php echo htmlspecialchars($row['role'] ?? 'N/A'); ?>
-                    </p>
+                <!-- Details -->
+                <div class="p-4 space-y-2">
+                    <p class="text-sm"><strong>Email:</strong> <?= htmlspecialchars($row['email']); ?></p>
+                    <p class="text-sm"><strong>Phone:</strong> <?= htmlspecialchars($row['phone']); ?></p>
+                    <p class="text-sm"><strong>Skills:</strong> <?= htmlspecialchars($row['skills']); ?></p>
                 </div>
 
-
-                <div class="mt-4 flex space-x-2">
-                    <a href="view_jobseeker.php?jobseeker_id=<?php echo $row['jobseeker_id']; ?>"
-                        class="flex-1 text-center bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg font-medium transition">
-                        View Profile
-                    </a>
-                    <a href="../resumes/<?php echo $row['resume']; ?>" target="_blank"
-                        class="flex-1 text-center bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg font-medium transition">
-                        View Resume
-                    </a>
+                <!-- Resume -->
+                <div class="px-4 pb-4">
+                   <?php if (!empty($row['resume'])): ?>
+                     <a href="../resumes/<?= htmlspecialchars($row['resume']); ?>" 
+                           target="_blank" 
+                           class="inline-block bg-teal-500 hover:bg-teal-600 text-white text-xs sm:text-sm px-3 py-1.5 rounded transition w-full sm:w-auto text-center">
+                       📄 View Resume
+                     </a>
+                  <?php else: ?>
+                     <p class="text-gray-500 text-sm">No resume uploaded</p>
+                  <?php endif; ?>
                 </div>
             </div>
         <?php } ?>
+    </div>
+
+    <!-- Back Button -->
+    <div class="mt-10 text-center">
+        <a href="dashboard.php"
+           class="inline-block bg-gray-200 hover:bg-gray-300 text-gray-800 text-sm font-medium px-4 py-2 rounded transition">
+            🔙 Back to Dashboard
+        </a>
     </div>
 </div>

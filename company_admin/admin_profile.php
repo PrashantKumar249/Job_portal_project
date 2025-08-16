@@ -42,7 +42,7 @@ $conn->close();
             <div class="flex flex-col items-center text-center space-y-4">
                 <?php if (!empty($company['logo'])): ?>
                     <div class="relative">
-                        <img src="../Uploads/company_logos/<?php echo htmlspecialchars($company['logo']); ?>" 
+                        <img src="../Uploads/company_logo/<?php echo htmlspecialchars($company['logo']); ?>" 
                             alt="Company Logo" 
                             class="w-28 h-28 sm:w-32 sm:h-32 object-cover rounded-full border-4 border-green-300 shadow-lg">
                     </div>

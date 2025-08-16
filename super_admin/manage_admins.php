@@ -80,13 +80,16 @@ $result = $conn->query($sql);
                          <td class="px-4 py-2 border"><?php echo htmlspecialchars($row['admin_name']); ?></td>
                          <td class="px-4 py-2 border"><?php echo htmlspecialchars($row['company_name'] ?? 'No Company'); ?></td>
             
-                         <!-- New Post Job Button -->
-                         <td class="px-4 py-2 border text-center">
+                        <!-- Responsive Post Job Button -->
+                        <td class="px-4 py-2 border text-center">
                             <a href="admin_post_job.php?admin_id=<?= urlencode($row['company_admin_id']); ?>" 
-                              class="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600 transition">
+                               class="bg-blue-500 hover:bg-blue-600 text-white 
+                                    px-2 py-1 text-xs rounded block text-center 
+                                    sm:inline-block sm:px-3 sm:py-1.5 sm:text-sm transition">
                                Post Job
                             </a>
-                         </td>
+                        </td>
+
 
                          <td class="px-4 py-2 border text-center">
                             <a href="?delete_id=<?php echo $row['company_admin_id']; ?>"

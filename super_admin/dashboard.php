@@ -30,10 +30,10 @@ if (!isset($_SESSION['superadmin_id'])) {
       </a>
 
       <!-- Card 3 -->
-      <a href="view_logs.php" class="bg-white rounded-lg shadow-md hover:shadow-xl transition-shadow border-t-4 border-purple-500 p-6 group">
+      <!-- <a href="view_logs.php" class="bg-white rounded-lg shadow-md hover:shadow-xl transition-shadow border-t-4 border-purple-500 p-6 group">
         <h3 class="text-lg font-semibold text-purple-700 group-hover:underline">Activity Logs</h3>
         <p class="text-gray-600 mt-2">View actions performed by superadmins and company admins.</p>
-      </a>
+      </a> -->
 
       <!-- Card 4 -->
       <a href="jobseekers.php" class="bg-white rounded-lg shadow-md hover:shadow-xl transition-shadow border-t-4 border-purple-500 p-6 group">

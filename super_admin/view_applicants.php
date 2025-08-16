@@ -77,21 +77,25 @@ $total_applicants = $result->num_rows;
                     <td class="px-4 py-2 border"><?= htmlspecialchars($row['skills']); ?></td>
                     <td class="px-4 py-2 border">
                         <?php if (!empty($row['resume'])): ?>
-                            <a href="../resumes/<?= htmlspecialchars($row['resume']); ?>" target="_blank" 
-                               class="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded text-xs">
-                                View Resume
-                            </a>
+                          <a href="../resumes/<?= htmlspecialchars($row['resume']); ?>" target="_blank" 
+                             class="bg-blue-500 hover:bg-blue-600 text-white 
+                                  px-2 py-1 text-xs rounded block text-center 
+                                  sm:inline-block sm:px-3 sm:py-1.5 sm:text-sm">
+                             View Resume
+                          </a>
                         <?php else: ?>
-                            <span class="text-gray-500">No Resume</span>
+                          <span class="text-gray-500">No Resume</span>
                         <?php endif; ?>
                     </td>
                     <td class="px-4 py-2 border"><?= ucfirst($row['status']); ?></td>
                     <td class="px-4 py-2 border"><?= date("d M Y, h:i A", strtotime($row['applied_at'])); ?></td>
                     <td class="px-4 py-2 border">
-                       <a href="view_jobseeker_profile.php?jobseeker_id=<?= urlencode($row['jobseeker_id']);?>&amp;job_id=<?= urlencode($job_id); ?>" 
-                         class="bg-green-500 hover:bg-green-600 text-white px-3 py-1 rounded text-xs">
-                            View Profile
-                       </a>
+                        <a href="view_jobseeker_profile.php?jobseeker_id=<?= urlencode($row['jobseeker_id']);?>&amp;job_id=<?= urlencode($job_id); ?>" 
+                           class="bg-green-500 hover:bg-green-600 text-white 
+                              px-2 py-1 text-xs rounded block text-center 
+                              sm:inline-block sm:px-3 sm:py-1.5 sm:text-sm">
+                           View Profile
+                        </a>
                     </td>
                 </tr>
                 <?php endwhile; else: ?>
