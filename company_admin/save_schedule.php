@@ -30,11 +30,11 @@ if (
     // Add created_at with NOW()
     $stmt = $conn->prepare("
     INSERT INTO interview_schedule 
-    (interview_id, application_id, interview_date, mode, location_or_link, notes, created_at) 
-    VALUES (?,?, ?, ?, ?, ?, NOW())
+    (interview_id, application_id, interview_date, company_admin_id, mode, location_or_link, notes, created_at) 
+    VALUES (?, ?, ?, ?, ?, ?, ?, NOW())
 ");
 
-    $stmt->bind_param("ssssss", $interview_id, $application_id, $interview_date, $mode, $location_or_link, $notes);
+    $stmt->bind_param("sssssss", $interview_id, $application_id, $interview_date, $_SESSION['company_admin_id'], $mode, $location_or_link, $notes);
 
 
     if ($stmt->execute()) {

@@ -8,14 +8,21 @@ if (!isset($_SESSION['company_admin_id'])) {
 include '../inc/db.php';
 include 'company_admin_header.php';
 
+$company_admin_id = $_SESSION['company_admin_id'];
 // Fetch applications with status = 'interview'
 $sql = "
-    SELECT application_id, jobseeker_id
-    FROM applications
-    WHERE status = 'interview'
-    ORDER BY application_id DESC
+    SELECT a.application_id, a.jobseeker_id
+    FROM applications a
+    INNER JOIN jobs j ON a.job_id = j.job_id
+    WHERE a.status = 'interview'
+    AND j.posted_by = ?
+    ORDER BY a.application_id DESC
 ";
-$result = $conn->query($sql);
+// $result = $conn->query($sql);
+$stmt = $conn->prepare($sql);
+$stmt->bind_param("s", $company_admin_id);
+$stmt->execute();
+$result = $stmt->get_result();
 ?>
 
 <div class="p-4 sm:p-6">
@@ -82,7 +89,8 @@ $result = $conn->query($sql);
     <div class="overflow-x-auto">
         <?php
         $scheduled = $conn->query("
-            SELECT * FROM interview_schedule ORDER BY interview_date ASC
+            SELECT * FROM interview_schedule WHERE company_admin_id = '$_SESSION[company_admin_id]'
+            ORDER BY interview_date ASC
         ");
         ?>
         <table class="min-w-full border border-gray-300 text-sm sm:text-base">
@@ -131,11 +139,11 @@ $(document).on("click", ".save-schedule", function () {
     let location = $(".interview-location[data-application-id='" + appId + "']").val();
     let notes = $(".interview-notes[data-application-id='" + appId + "']").val();
 
-    console.log(appId);
-    console.log(date);
-    console.log(mode);
-    console.log(location);
-    console.log(notes);
+    // console.log(appId);
+    // console.log(date);
+    // console.log(mode);
+    // console.log(location);
+    // console.log(notes);
 
 
     if (!date || !mode || !location) {

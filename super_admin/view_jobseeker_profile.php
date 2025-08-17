@@ -5,8 +5,8 @@ if (!isset($_SESSION['superadmin_id'])) {
     exit();
 }
 
-include '../inc/db.php'; 
-include 'super_admin_header.php'; 
+include '../inc/db.php';
+include 'super_admin_header.php';
 
 $job_id = $_GET['job_id'] ?? null;
 
@@ -66,8 +66,8 @@ if (!$jobseeker) {
             <div>
                 <h3 class="text-lg font-semibold text-gray-800 mb-2">Resume</h3>
                 <?php if (!empty($jobseeker['resume'])): ?>
-                    <a href="../resumes/<?= htmlspecialchars($jobseeker['resume']); ?>" 
-                       class="text-blue-600 hover:underline" target="_blank">
+                    <a href="../resumes/<?= htmlspecialchars($jobseeker['resume']); ?>"
+                        class="text-blue-600 hover:underline" target="_blank">
                         View resume
                     </a>
                 <?php else: ?>
@@ -81,11 +81,19 @@ if (!$jobseeker) {
             <p class="text-sm text-gray-500">Member since <?= date("F j, Y", strtotime($jobseeker['created_at'])); ?></p>
         </div>
     </div>
-<div class="mt-6 text-center">
-    <a href="view_applicants.php?job_id=<?= urlencode($job_id); ?>" 
-       class="inline-block bg-white text-blue-700 border border-blue-700 px-5 py-2 rounded hover:bg-blue-700 hover:text-white transition">
-        ← Back
-    </a>
-</div>
+    <div class="mt-6 text-center">
+        <?php if ($job_id) { ?>
+            <a href="view_applicants.php?job_id=<?= urlencode($job_id); ?>"
+                class="inline-block bg-white text-blue-700 border border-blue-700 px-5 py-2 rounded hover:bg-blue-700 hover:text-white transition">
+                ← Back
+            </a>
+        <?php } else { ?>
+            <a href="jobseekers.php"
+                class="inline-block bg-white text-blue-700 border border-blue-700 px-5 py-2 rounded hover:bg-blue-700 hover:text-white transition">
+                ← Back
+            </a>
+        <?php } ?>
+
+    </div>
 
 </div>

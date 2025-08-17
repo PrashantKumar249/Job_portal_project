@@ -124,7 +124,8 @@ $row1 = $result1->fetch_assoc();
                                 <?= date("d M Y, h:i A", strtotime($row['applied_at'])) ?>
                             </td>
                             <td class="border border-gray-300 px-2 sm:px-4 py-2 whitespace-nowrap">
-                                <a href="view_jobseeker_profile.php?id=<?= urlencode($row['jobseeker_id']) ?>" class="inline-block w-full sm:w-auto text-center bg-blue-500 text-white px-3 py-1 rounded 
+                                <a href="view_jobseeker_profile.php?jobseeker_id=<?= urlencode($row['jobseeker_id']); ?>&amp;job_id=<?= urlencode($job_id); ?>"
+                                      class="inline-block w-full sm:w-auto text-center bg-blue-500 text-white px-3 py-1 rounded 
                                       hover:bg-blue-600 transition text-xs sm:text-sm break-words">
                                     View Profile
                                 </a>

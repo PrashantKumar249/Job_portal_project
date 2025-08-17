@@ -87,7 +87,7 @@ echo "<img src='uploads/companies/" . htmlspecialchars($logo_data['logo']) . "' 
         </a>
 
         <!-- Job Seeker Profiles -->
-        <a href="jobseekers.php"
+        <a href="all_jobseekers.php"
             class="bg-white border border-gray-200 hover:border-blue-500 rounded-2xl p-6 shadow-sm hover:shadow-md transition group">
             <div class="text-blue-700 text-3xl mb-3">📄</div>
             <h2 class="text-xl font-semibold group-hover:underline">Job Seeker Profiles</h2>
